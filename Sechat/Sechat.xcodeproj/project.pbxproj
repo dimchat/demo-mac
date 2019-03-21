@@ -1,0 +1,810 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E9BBC39B2242B57E00E6ACDA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC39A2242B57E00E6ACDA /* AppDelegate.m */; };
+		E9BBC39E2242B57E00E6ACDA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC39D2242B57E00E6ACDA /* ViewController.m */; };
+		E9BBC3A02242B57F00E6ACDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9BBC39F2242B57F00E6ACDA /* Assets.xcassets */; };
+		E9BBC3A32242B57F00E6ACDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9BBC3A12242B57F00E6ACDA /* Main.storyboard */; };
+		E9BBC3A62242B57F00E6ACDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3A52242B57F00E6ACDA /* main.m */; };
+		E9BBC3B12242B58000E6ACDA /* SechatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3B02242B58000E6ACDA /* SechatTests.m */; };
+		E9BBC3BC2242B58000E6ACDA /* SechatUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3BB2242B58000E6ACDA /* SechatUITests.m */; };
+		E9BBC3DA2242B6C500E6ACDA /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBC3D92242B6C500E6ACDA /* gsp.plist */; };
+		E9BBC3E62242B6F600E6ACDA /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3DD2242B6F600E6ACDA /* Facebook+Register.m */; };
+		E9BBC3E72242B6F600E6ACDA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3DE2242B6F600E6ACDA /* User.m */; };
+		E9BBC3E82242B6F600E6ACDA /* MessageProcessor+GroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3E02242B6F600E6ACDA /* MessageProcessor+GroupCommand.m */; };
+		E9BBC3E92242B6F600E6ACDA /* MessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3E12242B6F600E6ACDA /* MessageProcessor.m */; };
+		E9BBC3EA2242B6F600E6ACDA /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3E52242B6F600E6ACDA /* Facebook.m */; };
+		E9BBC4362242BC5800E6ACDA /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC4352242BC5800E6ACDA /* Client.m */; };
+		E9BBC4952242C58D00E6ACDA /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC4792242C10F00E6ACDA /* DaoKeDao.framework */; };
+		E9BBC4962242C58D00E6ACDA /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC4792242C10F00E6ACDA /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9BBC4972242C59300E6ACDA /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC47B2242C11300E6ACDA /* MingKeMing.framework */; };
+		E9BBC4982242C59300E6ACDA /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC47B2242C11300E6ACDA /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9BBC4992242C59900E6ACDA /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC4772242C10700E6ACDA /* DIMCore.framework */; };
+		E9BBC49A2242C59900E6ACDA /* DIMCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC4772242C10700E6ACDA /* DIMCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9BBC49B2242C5B200E6ACDA /* MarsGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC47D2242C11600E6ACDA /* MarsGate.framework */; };
+		E9BBC49C2242C5B200E6ACDA /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC47D2242C11600E6ACDA /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9BBC49D2242C5BA00E6ACDA /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC47F2242C11900E6ACDA /* FiniteStateMachine.framework */; };
+		E9BBC49E2242C5BA00E6ACDA /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC47F2242C11900E6ACDA /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9BBC49F2242C5C500E6ACDA /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC4712242C0A700E6ACDA /* DIMClient.framework */; };
+		E9BBC4A02242C5C500E6ACDA /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC4712242C0A700E6ACDA /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9BBC4A52242C78F00E6ACDA /* usr-moky.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBC4A32242C78F00E6ACDA /* usr-moky.plist */; };
+		E9BBC4A62242C78F00E6ACDA /* usr-selina.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBC4A42242C78F00E6ACDA /* usr-selina.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E9BBC3AD2242B58000E6ACDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9BBC38E2242B57E00E6ACDA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E9BBC3952242B57E00E6ACDA;
+			remoteInfo = Sechat;
+		};
+		E9BBC3B82242B58000E6ACDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9BBC38E2242B57E00E6ACDA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E9BBC3952242B57E00E6ACDA;
+			remoteInfo = Sechat;
+		};
+		E9BBC4702242C0A700E6ACDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9BBC4662242C0A700E6ACDA /* DIMClient.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9BBC2E922429D6C00E6ACDA;
+			remoteInfo = DIMClient;
+		};
+		E9BBC4722242C0A700E6ACDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9BBC4662242C0A700E6ACDA /* DIMClient.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9BBC2F222429D6C00E6ACDA;
+			remoteInfo = DIMClientTests;
+		};
+		E9BBC4752242C0F300E6ACDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9BBC4662242C0A700E6ACDA /* DIMClient.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E9BBC2E822429D6C00E6ACDA;
+			remoteInfo = DIMClient;
+		};
+		E9BBC4932242C53300E6ACDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9BBC4662242C0A700E6ACDA /* DIMClient.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E9BBC2E822429D6C00E6ACDA;
+			remoteInfo = DIMClient;
+		};
+		E9BBC4A12242C5C500E6ACDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9BBC4662242C0A700E6ACDA /* DIMClient.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E9BBC2E822429D6C00E6ACDA;
+			remoteInfo = DIMClient;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E9BBC40F2242B80E00E6ACDA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E9BBC4982242C59300E6ACDA /* MingKeMing.framework in Embed Frameworks */,
+				E9BBC4962242C58D00E6ACDA /* DaoKeDao.framework in Embed Frameworks */,
+				E9BBC49C2242C5B200E6ACDA /* MarsGate.framework in Embed Frameworks */,
+				E9BBC49E2242C5BA00E6ACDA /* FiniteStateMachine.framework in Embed Frameworks */,
+				E9BBC4A02242C5C500E6ACDA /* DIMClient.framework in Embed Frameworks */,
+				E9BBC49A2242C59900E6ACDA /* DIMCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		E9BBC3962242B57E00E6ACDA /* Sechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BBC3992242B57E00E6ACDA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E9BBC39A2242B57E00E6ACDA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E9BBC39C2242B57E00E6ACDA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		E9BBC39D2242B57E00E6ACDA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		E9BBC39F2242B57F00E6ACDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E9BBC3A22242B57F00E6ACDA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E9BBC3A42242B57F00E6ACDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9BBC3A52242B57F00E6ACDA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E9BBC3A72242B57F00E6ACDA /* Sechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sechat.entitlements; sourceTree = "<group>"; };
+		E9BBC3AC2242B58000E6ACDA /* SechatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SechatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BBC3B02242B58000E6ACDA /* SechatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SechatTests.m; sourceTree = "<group>"; };
+		E9BBC3B22242B58000E6ACDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9BBC3B72242B58000E6ACDA /* SechatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SechatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BBC3BB2242B58000E6ACDA /* SechatUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SechatUITests.m; sourceTree = "<group>"; };
+		E9BBC3BD2242B58000E6ACDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9BBC3D92242B6C500E6ACDA /* gsp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gsp.plist; sourceTree = "<group>"; };
+		E9BBC3DC2242B6F600E6ACDA /* MessageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageProcessor.h; sourceTree = "<group>"; };
+		E9BBC3DD2242B6F600E6ACDA /* Facebook+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
+		E9BBC3DE2242B6F600E6ACDA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		E9BBC3DF2242B6F600E6ACDA /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
+		E9BBC3E02242B6F600E6ACDA /* MessageProcessor+GroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MessageProcessor+GroupCommand.m"; sourceTree = "<group>"; };
+		E9BBC3E12242B6F600E6ACDA /* MessageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageProcessor.m; sourceTree = "<group>"; };
+		E9BBC3E22242B6F600E6ACDA /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		E9BBC3E32242B6F600E6ACDA /* Facebook+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
+		E9BBC3E42242B6F600E6ACDA /* MessageProcessor+GroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MessageProcessor+GroupCommand.h"; sourceTree = "<group>"; };
+		E9BBC3E52242B6F600E6ACDA /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facebook.m; sourceTree = "<group>"; };
+		E9BBC4342242BC5800E6ACDA /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		E9BBC4352242BC5800E6ACDA /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
+		E9BBC4662242C0A700E6ACDA /* DIMClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMClient.xcodeproj; path = "../../client-objc/DIMClient-Mac/DIMClient.xcodeproj"; sourceTree = "<group>"; };
+		E9BBC4772242C10700E6ACDA /* DIMCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BBC4792242C10F00E6ACDA /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BBC47B2242C11300E6ACDA /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BBC47D2242C11600E6ACDA /* MarsGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarsGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BBC47F2242C11900E6ACDA /* FiniteStateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FiniteStateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BBC4A32242C78F00E6ACDA /* usr-moky.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-moky.plist"; sourceTree = "<group>"; };
+		E9BBC4A42242C78F00E6ACDA /* usr-selina.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-selina.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E9BBC3932242B57E00E6ACDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9BBC4972242C59300E6ACDA /* MingKeMing.framework in Frameworks */,
+				E9BBC4952242C58D00E6ACDA /* DaoKeDao.framework in Frameworks */,
+				E9BBC49B2242C5B200E6ACDA /* MarsGate.framework in Frameworks */,
+				E9BBC49D2242C5BA00E6ACDA /* FiniteStateMachine.framework in Frameworks */,
+				E9BBC49F2242C5C500E6ACDA /* DIMClient.framework in Frameworks */,
+				E9BBC4992242C59900E6ACDA /* DIMCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9BBC3A92242B58000E6ACDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9BBC3B42242B58000E6ACDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E9BBC38D2242B57E00E6ACDA = {
+			isa = PBXGroup;
+			children = (
+				E9BBC4662242C0A700E6ACDA /* DIMClient.xcodeproj */,
+				E9BBC3C92242B5F200E6ACDA /* Classes */,
+				E9BBC3CA2242B5F200E6ACDA /* Resources */,
+				E9BBC3982242B57E00E6ACDA /* Sechat */,
+				E9BBC3AF2242B58000E6ACDA /* SechatTests */,
+				E9BBC3BA2242B58000E6ACDA /* SechatUITests */,
+				E9BBC3972242B57E00E6ACDA /* Products */,
+				E9BBC3FF2242B7B500E6ACDA /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E9BBC3972242B57E00E6ACDA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9BBC3962242B57E00E6ACDA /* Sechat.app */,
+				E9BBC3AC2242B58000E6ACDA /* SechatTests.xctest */,
+				E9BBC3B72242B58000E6ACDA /* SechatUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E9BBC3982242B57E00E6ACDA /* Sechat */ = {
+			isa = PBXGroup;
+			children = (
+				E9BBC3992242B57E00E6ACDA /* AppDelegate.h */,
+				E9BBC39A2242B57E00E6ACDA /* AppDelegate.m */,
+				E9BBC39C2242B57E00E6ACDA /* ViewController.h */,
+				E9BBC39D2242B57E00E6ACDA /* ViewController.m */,
+				E9BBC39F2242B57F00E6ACDA /* Assets.xcassets */,
+				E9BBC3A12242B57F00E6ACDA /* Main.storyboard */,
+				E9BBC3A42242B57F00E6ACDA /* Info.plist */,
+				E9BBC3A52242B57F00E6ACDA /* main.m */,
+				E9BBC3A72242B57F00E6ACDA /* Sechat.entitlements */,
+			);
+			path = Sechat;
+			sourceTree = "<group>";
+		};
+		E9BBC3AF2242B58000E6ACDA /* SechatTests */ = {
+			isa = PBXGroup;
+			children = (
+				E9BBC3B02242B58000E6ACDA /* SechatTests.m */,
+				E9BBC3B22242B58000E6ACDA /* Info.plist */,
+			);
+			path = SechatTests;
+			sourceTree = "<group>";
+		};
+		E9BBC3BA2242B58000E6ACDA /* SechatUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E9BBC3BB2242B58000E6ACDA /* SechatUITests.m */,
+				E9BBC3BD2242B58000E6ACDA /* Info.plist */,
+			);
+			path = SechatUITests;
+			sourceTree = "<group>";
+		};
+		E9BBC3C92242B5F200E6ACDA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E9BBC3DB2242B6F600E6ACDA /* Models */,
+				E9BBC4342242BC5800E6ACDA /* Client.h */,
+				E9BBC4352242BC5800E6ACDA /* Client.m */,
+			);
+			name = Classes;
+			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		E9BBC3CA2242B5F200E6ACDA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E9BBC3D92242B6C500E6ACDA /* gsp.plist */,
+				E9BBC4A32242C78F00E6ACDA /* usr-moky.plist */,
+				E9BBC4A42242C78F00E6ACDA /* usr-selina.plist */,
+			);
+			name = Resources;
+			path = ../Resources;
+			sourceTree = "<group>";
+		};
+		E9BBC3DB2242B6F600E6ACDA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E9BBC3DF2242B6F600E6ACDA /* Facebook.h */,
+				E9BBC3E52242B6F600E6ACDA /* Facebook.m */,
+				E9BBC3E32242B6F600E6ACDA /* Facebook+Register.h */,
+				E9BBC3DD2242B6F600E6ACDA /* Facebook+Register.m */,
+				E9BBC3DC2242B6F600E6ACDA /* MessageProcessor.h */,
+				E9BBC3E12242B6F600E6ACDA /* MessageProcessor.m */,
+				E9BBC3E42242B6F600E6ACDA /* MessageProcessor+GroupCommand.h */,
+				E9BBC3E02242B6F600E6ACDA /* MessageProcessor+GroupCommand.m */,
+				E9BBC3E22242B6F600E6ACDA /* User.h */,
+				E9BBC3DE2242B6F600E6ACDA /* User.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E9BBC3FF2242B7B500E6ACDA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E9BBC47F2242C11900E6ACDA /* FiniteStateMachine.framework */,
+				E9BBC47D2242C11600E6ACDA /* MarsGate.framework */,
+				E9BBC47B2242C11300E6ACDA /* MingKeMing.framework */,
+				E9BBC4792242C10F00E6ACDA /* DaoKeDao.framework */,
+				E9BBC4772242C10700E6ACDA /* DIMCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E9BBC4672242C0A700E6ACDA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9BBC4712242C0A700E6ACDA /* DIMClient.framework */,
+				E9BBC4732242C0A700E6ACDA /* DIMClientTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E9BBC3952242B57E00E6ACDA /* Sechat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9BBC3C02242B58000E6ACDA /* Build configuration list for PBXNativeTarget "Sechat" */;
+			buildPhases = (
+				E9BBC3922242B57E00E6ACDA /* Sources */,
+				E9BBC3932242B57E00E6ACDA /* Frameworks */,
+				E9BBC3942242B57E00E6ACDA /* Resources */,
+				E9BBC40F2242B80E00E6ACDA /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9BBC4762242C0F300E6ACDA /* PBXTargetDependency */,
+				E9BBC4942242C53300E6ACDA /* PBXTargetDependency */,
+				E9BBC4A22242C5C500E6ACDA /* PBXTargetDependency */,
+			);
+			name = Sechat;
+			productName = Sechat;
+			productReference = E9BBC3962242B57E00E6ACDA /* Sechat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E9BBC3AB2242B58000E6ACDA /* SechatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9BBC3C32242B58000E6ACDA /* Build configuration list for PBXNativeTarget "SechatTests" */;
+			buildPhases = (
+				E9BBC3A82242B58000E6ACDA /* Sources */,
+				E9BBC3A92242B58000E6ACDA /* Frameworks */,
+				E9BBC3AA2242B58000E6ACDA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9BBC3AE2242B58000E6ACDA /* PBXTargetDependency */,
+			);
+			name = SechatTests;
+			productName = SechatTests;
+			productReference = E9BBC3AC2242B58000E6ACDA /* SechatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E9BBC3B62242B58000E6ACDA /* SechatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E9BBC3C62242B58000E6ACDA /* Build configuration list for PBXNativeTarget "SechatUITests" */;
+			buildPhases = (
+				E9BBC3B32242B58000E6ACDA /* Sources */,
+				E9BBC3B42242B58000E6ACDA /* Frameworks */,
+				E9BBC3B52242B58000E6ACDA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9BBC3B92242B58000E6ACDA /* PBXTargetDependency */,
+			);
+			name = SechatUITests;
+			productName = SechatUITests;
+			productReference = E9BBC3B72242B58000E6ACDA /* SechatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E9BBC38E2242B57E00E6ACDA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "DIM Group";
+				TargetAttributes = {
+					E9BBC3952242B57E00E6ACDA = {
+						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.NetworkExtensions = {
+								enabled = 0;
+							};
+						};
+					};
+					E9BBC3AB2242B58000E6ACDA = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = E9BBC3952242B57E00E6ACDA;
+					};
+					E9BBC3B62242B58000E6ACDA = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = E9BBC3952242B57E00E6ACDA;
+					};
+				};
+			};
+			buildConfigurationList = E9BBC3912242B57E00E6ACDA /* Build configuration list for PBXProject "Sechat" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E9BBC38D2242B57E00E6ACDA;
+			productRefGroup = E9BBC3972242B57E00E6ACDA /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E9BBC4672242C0A700E6ACDA /* Products */;
+					ProjectRef = E9BBC4662242C0A700E6ACDA /* DIMClient.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				E9BBC3952242B57E00E6ACDA /* Sechat */,
+				E9BBC3AB2242B58000E6ACDA /* SechatTests */,
+				E9BBC3B62242B58000E6ACDA /* SechatUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E9BBC4712242C0A700E6ACDA /* DIMClient.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DIMClient.framework;
+			remoteRef = E9BBC4702242C0A700E6ACDA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E9BBC4732242C0A700E6ACDA /* DIMClientTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DIMClientTests.xctest;
+			remoteRef = E9BBC4722242C0A700E6ACDA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E9BBC3942242B57E00E6ACDA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9BBC3DA2242B6C500E6ACDA /* gsp.plist in Resources */,
+				E9BBC4A62242C78F00E6ACDA /* usr-selina.plist in Resources */,
+				E9BBC3A02242B57F00E6ACDA /* Assets.xcassets in Resources */,
+				E9BBC3A32242B57F00E6ACDA /* Main.storyboard in Resources */,
+				E9BBC4A52242C78F00E6ACDA /* usr-moky.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9BBC3AA2242B58000E6ACDA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9BBC3B52242B58000E6ACDA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E9BBC3922242B57E00E6ACDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9BBC3E72242B6F600E6ACDA /* User.m in Sources */,
+				E9BBC3E62242B6F600E6ACDA /* Facebook+Register.m in Sources */,
+				E9BBC39E2242B57E00E6ACDA /* ViewController.m in Sources */,
+				E9BBC3A62242B57F00E6ACDA /* main.m in Sources */,
+				E9BBC3E82242B6F600E6ACDA /* MessageProcessor+GroupCommand.m in Sources */,
+				E9BBC4362242BC5800E6ACDA /* Client.m in Sources */,
+				E9BBC3E92242B6F600E6ACDA /* MessageProcessor.m in Sources */,
+				E9BBC39B2242B57E00E6ACDA /* AppDelegate.m in Sources */,
+				E9BBC3EA2242B6F600E6ACDA /* Facebook.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9BBC3A82242B58000E6ACDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9BBC3B12242B58000E6ACDA /* SechatTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9BBC3B32242B58000E6ACDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9BBC3BC2242B58000E6ACDA /* SechatUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E9BBC3AE2242B58000E6ACDA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E9BBC3952242B57E00E6ACDA /* Sechat */;
+			targetProxy = E9BBC3AD2242B58000E6ACDA /* PBXContainerItemProxy */;
+		};
+		E9BBC3B92242B58000E6ACDA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E9BBC3952242B57E00E6ACDA /* Sechat */;
+			targetProxy = E9BBC3B82242B58000E6ACDA /* PBXContainerItemProxy */;
+		};
+		E9BBC4762242C0F300E6ACDA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DIMClient;
+			targetProxy = E9BBC4752242C0F300E6ACDA /* PBXContainerItemProxy */;
+		};
+		E9BBC4942242C53300E6ACDA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DIMClient;
+			targetProxy = E9BBC4932242C53300E6ACDA /* PBXContainerItemProxy */;
+		};
+		E9BBC4A22242C5C500E6ACDA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DIMClient;
+			targetProxy = E9BBC4A12242C5C500E6ACDA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E9BBC3A12242B57F00E6ACDA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E9BBC3A22242B57F00E6ACDA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E9BBC3BE2242B58000E6ACDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E9BBC3BF2242B58000E6ACDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E9BBC3C12242B58000E6ACDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				HEADER_SEARCH_PATHS = (
+					"../../client-objc/Classes/**",
+					"../../core-objc/Classes/**",
+					"../../mkm-objc/Classes/**",
+				);
+				INFOPLIST_FILE = Sechat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.Sechat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E9BBC3C22242B58000E6ACDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				HEADER_SEARCH_PATHS = (
+					"../../client-objc/Classes/**",
+					"../../core-objc/Classes/**",
+					"../../mkm-objc/Classes/**",
+				);
+				INFOPLIST_FILE = Sechat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.Sechat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		E9BBC3C42242B58000E6ACDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				INFOPLIST_FILE = SechatTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.SechatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sechat.app/Contents/MacOS/Sechat";
+			};
+			name = Debug;
+		};
+		E9BBC3C52242B58000E6ACDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				INFOPLIST_FILE = SechatTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.SechatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sechat.app/Contents/MacOS/Sechat";
+			};
+			name = Release;
+		};
+		E9BBC3C72242B58000E6ACDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				INFOPLIST_FILE = SechatUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.SechatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Sechat;
+			};
+			name = Debug;
+		};
+		E9BBC3C82242B58000E6ACDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = JUVC7SZJE7;
+				INFOPLIST_FILE = SechatUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.SechatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Sechat;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E9BBC3912242B57E00E6ACDA /* Build configuration list for PBXProject "Sechat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9BBC3BE2242B58000E6ACDA /* Debug */,
+				E9BBC3BF2242B58000E6ACDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9BBC3C02242B58000E6ACDA /* Build configuration list for PBXNativeTarget "Sechat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9BBC3C12242B58000E6ACDA /* Debug */,
+				E9BBC3C22242B58000E6ACDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9BBC3C32242B58000E6ACDA /* Build configuration list for PBXNativeTarget "SechatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9BBC3C42242B58000E6ACDA /* Debug */,
+				E9BBC3C52242B58000E6ACDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E9BBC3C62242B58000E6ACDA /* Build configuration list for PBXNativeTarget "SechatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9BBC3C72242B58000E6ACDA /* Debug */,
+				E9BBC3C82242B58000E6ACDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E9BBC38E2242B57E00E6ACDA /* Project object */;
+}
