@@ -12,6 +12,8 @@
 
 #import "MKMImmortals.h"
 
+#import "DIMProfile+Extension.h"
+
 #import "User.h"
 
 #import "Client.h"
@@ -79,6 +81,7 @@ SingletonImplementations(Facebook, sharedInstance)
         Client *client = [Client sharedInstance];
         DIMUser *user;
         for (DIMID *ID in users) {
+            NSLog(@"[client] add user: %@", ID);
             user = DIMUserWithID(ID);
             [client addUser:user];
         }
@@ -92,14 +95,38 @@ SingletonImplementations(Facebook, sharedInstance)
 }
 
 - (void)onProfileUpdated:(NSNotification *)notification {
-    if ([notification.name isEqual:kNotificationName_ProfileUpdated]) {
-        DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
-        DIMProfile *profile = cmd.profile;
-        if ([profile.ID isEqual:cmd.ID]) {
-            [profile removeObjectForKey:@"lastTime"];
-            [self saveProfile:profile forEntityID:profile.ID];
-        }
+    if (![notification.name isEqual:kNotificationName_ProfileUpdated]) {
+        return ;
     }
+    DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
+    DIMProfile *profile = cmd.profile;
+    NSAssert([profile.ID isEqual:cmd.ID], @"profile command error: %@", cmd);
+    [profile removeObjectForKey:@"lastTime"];
+    
+    // check avatar
+    NSString *avatar = profile.avatar;
+    if (avatar) {
+        //        // if old avatar exists, remove it
+        //        const DIMID *ID = profile.ID;
+        //        DIMProfile *old = [self profileForID:ID];
+        //        NSString *ext = [old.avatar pathExtension];
+        //        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
+        //            // Cache directory: "Documents/.mkm/{address}/avatar.png"
+        //            NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
+        //            NSFileManager *fm = [NSFileManager defaultManager];
+        //            if ([fm fileExistsAtPath:path]) {
+        //                NSError *error = nil;
+        //                if (![fm removeItemAtPath:path error:&error]) {
+        //                    NSLog(@"failed to remove old avatar: %@", error);
+        //                } else {
+        //                    NSLog(@"old avatar removed: %@", path);
+        //                }
+        //            }
+        //        }
+    }
+    
+    // update profile
+    [self saveProfile:profile forID:profile.ID];
 }
 
 - (nullable const DIMID *)IDWithAddress:(const DIMAddress *)address {
@@ -160,14 +187,13 @@ SingletonImplementations(Facebook, sharedInstance)
         NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
         [contacts writeToFile:path atomically:YES];
         NSLog(@"contacts updated: %@", contacts);
-        [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
     } else {
         NSLog(@"no contacts");
     }
 }
 
 // {document_directory}/.mkm/{address}/contacts.plist
-- (nullable ContactTable *)reloadContactsWithUser:(DIMUser *)user {
+- (ContactTable *)reloadContactsWithUser:(DIMUser *)user {
     NSString *dir = document_directory();
     NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
     
@@ -180,17 +206,15 @@ SingletonImplementations(Facebook, sharedInstance)
         [_contactsTable setObject:contacts forKey:user.ID.address];
     } else {
         [_contactsTable removeObjectForKey:user.ID.address];
+        contacts = [[NSMutableArray alloc] init];
     }
     return contacts;
 }
 
 - (void)setProfile:(const DIMProfile *)profile forID:(const DIMID *)ID {
     if (profile) {
-        if ([profile.ID isEqual:ID]) {
-            [_profileTable setObject:[profile copy] forKey:ID.address];
-        } else {
-            NSAssert(false, @"profile error: %@, ID = %@", profile, ID);
-        }
+        NSAssert([profile.ID isEqual:ID], @"profile error: %@, ID = %@", profile, ID);
+        [_profileTable setObject:[profile copy] forKey:ID.address];
     } else {
         [_profileTable removeObjectForKey:ID.address];
     }
@@ -198,7 +222,7 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMMetaDataSource
 
-- (const DIMMeta *)metaForID:(const DIMID *)ID {
+- (nullable const DIMMeta *)metaForID:(const DIMID *)ID {
     const DIMMeta *meta = nil;
     
     if (MKMNetwork_IsPerson(ID.type)) {
@@ -224,7 +248,7 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMEntityDataSource
 
-- (const DIMMeta *)metaForEntity:(const DIMEntity *)entity {
+- (nullable const DIMMeta *)metaForEntity:(const DIMEntity *)entity {
     return [self metaForID:entity.ID];
 }
 
@@ -235,9 +259,10 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMAccountDelegate
 
-- (DIMAccount *)accountWithID:(const DIMID *)ID {
+- (nullable DIMAccount *)accountWithID:(const DIMID *)ID {
     DIMAccount *account = [_immortals accountWithID:ID];
     if (account) {
+        account.dataSource = nil;//[DIMBarrack sharedInstance];
         return account;
     }
     
@@ -266,6 +291,9 @@ SingletonImplementations(Facebook, sharedInstance)
     NSArray *contacts = [_contactsTable objectForKey:ID.address];
     if (!contacts) {
         contacts = [self reloadContactsWithUser:user];
+        if (contacts.count > 0) {
+            [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
+        }
     }
     
     return contacts.count;
@@ -277,6 +305,9 @@ SingletonImplementations(Facebook, sharedInstance)
     NSArray *contacts = [_contactsTable objectForKey:ID.address];
     if (!contacts) {
         contacts = [self reloadContactsWithUser:user];
+        if (contacts.count > 0) {
+            [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
+        }
     }
     
     ID = [contacts objectAtIndex:index];
@@ -299,6 +330,7 @@ SingletonImplementations(Facebook, sharedInstance)
         [_contactsTable setObject:contacts forKey:user.ID.address];
     }
     [self flushContactsWithUser:user];
+    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
     return YES;
 }
 
@@ -317,14 +349,16 @@ SingletonImplementations(Facebook, sharedInstance)
         return NO;
     }
     [self flushContactsWithUser:user];
+    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
     return YES;
 }
 
 #pragma mark MKMUserDelegate
 
-- (DIMUser *)userWithID:(const DIMID *)ID {
+- (nullable DIMUser *)userWithID:(const DIMID *)ID {
     DIMUser *user = [_immortals userWithID:ID];
     if (user) {
+        user.dataSource = nil;//[DIMBarrack sharedInstance];
         return user;
     }
     
@@ -348,21 +382,21 @@ SingletonImplementations(Facebook, sharedInstance)
 #pragma mark - MKMGroupDataSource
 
 - (const DIMID *)founderOfGroup:(const DIMGroup *)grp {
-    const DIMMeta *groupMeta = grp.meta;
+    const DIMMeta *meta = grp.meta;
     NSInteger count = [self numberOfMembersInGroup:grp];
     const DIMID *member;
     for (NSInteger index = 0; index < count; ++index) {
         member = [self group:grp memberAtIndex:index];
         // if the user's public key matches with the group's meta,
         // it means this meta was generate by the user's private key
-        if ([groupMeta matchPublicKey:DIMPublicKeyForID(member)]) {
+        if ([meta matchPublicKey:DIMPublicKeyForID(member)]) {
             return member;
         }
     }
     return nil;
 }
 
-- (const DIMID *)ownerOfGroup:(const DIMGroup *)grp {
+- (nullable const DIMID *)ownerOfGroup:(const DIMGroup *)grp {
     if (grp.ID.type == MKMNetwork_Polylogue) {
         // the polylogue's owner is its founder
         return [self founderOfGroup:grp];
@@ -380,16 +414,13 @@ SingletonImplementations(Facebook, sharedInstance)
 - (const DIMID *)group:(const DIMGroup *)grp memberAtIndex:(NSInteger)index {
     // TODO: cache it
     NSArray<const DIMID *> *list = [self loadMembersWithGroupID:grp.ID];
-    if (index < list.count && index >= 0) {
-        return [list objectAtIndex:index];
-    } else {
-        return nil;
-    }
+    NSAssert(index < list.count && index >= 0, @"index out of range: %ld, %@", index, list);
+    return [list objectAtIndex:index];
 }
 
 #pragma mark MKMGroupDelegate
 
-- (DIMGroup *)groupWithID:(const DIMID *)ID {
+- (nullable DIMGroup *)groupWithID:(const DIMID *)ID {
     DIMGroup *group = nil;
     
     // check meta
@@ -458,17 +489,15 @@ SingletonImplementations(Facebook, sharedInstance)
 #pragma mark - MKMProfileDataSource
 
 - (DIMProfile *)profileForID:(const DIMID *)ID {
-    DIMProfile *profile = nil;
-    
     // try from profile cache
-    profile = [_profileTable objectForKey:ID.address];
+    DIMProfile *profile = [_profileTable objectForKey:ID.address];;
     if (profile) {
         // check cache expires
         NSNumber *timestamp = [profile objectForKey:@"lastTime"];
         if (timestamp != nil) {
             NSDate *lastTime = NSDateFromNumber(timestamp);
             NSTimeInterval ti = [lastTime timeIntervalSinceNow];
-            if (fabs(ti) > 300) {
+            if (fabs(ti) > 3600) {
                 NSLog(@"profile expired: %@", lastTime);
                 [_profileTable removeObjectForKey:ID.address];
             }
@@ -476,39 +505,33 @@ SingletonImplementations(Facebook, sharedInstance)
             NSDate *now = [[NSDate alloc] init];
             [profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];
         }
-        
         return profile;
     }
     
-    // update from network
-    [[Client sharedInstance] queryProfileForID:ID];
-    
-    // try from "Documents/.mkm/{address}/profile.plist"
-    NSString *dir = document_directory();
-    dir = [dir stringByAppendingPathComponent:@".mkm"];
-    dir = [dir stringByAppendingPathComponent:(NSString *)ID.address];
-    NSString *path = [dir stringByAppendingPathComponent:@"profile.plist"];
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        NSLog(@"loaded profile from %@", path);
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        profile = [DIMProfile profileWithProfile:dict];
-    }
-    
-    if (profile) {
-        [profile removeObjectForKey:@"lastTime"];
-    } else {
+    do {
+        // send query for updating from network
+        [[Client sharedInstance] queryProfileForID:ID];
+        
+        // try from "Documents/.mkm/{address}/profile.plist"
+        profile = [self loadProfileForID:ID];
+        if (profile) {
+            break;
+        }
+        
         // try immortals
         if (MKMNetwork_IsPerson(ID.type)) {
             profile = [_immortals profileForID:ID];
+            if (profile) {
+                break;
+            }
         }
         
         // place an empty profile for cache
-        if (!profile) {
-            profile = [[DIMProfile alloc] initWithID:ID];
-        }
-    }
+        profile = [[DIMProfile alloc] initWithID:ID];
+        break;
+    } while (YES);
     
+    [profile removeObjectForKey:@"lastTime"];
     [self setProfile:profile forID:ID];
     return profile;
 }

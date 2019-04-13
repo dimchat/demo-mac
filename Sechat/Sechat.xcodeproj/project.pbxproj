@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E9365CE722619E9400CA05E4 /* DIMProfile+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9365CE622619E9400CA05E4 /* DIMProfile+Extension.m */; };
+		E9365CEC22619EBD00CA05E4 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9365CEA22619EBD00CA05E4 /* UIColor+Extension.m */; };
+		E9365CED22619EBD00CA05E4 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9365CEB22619EBD00CA05E4 /* UIImage+Extension.m */; };
+		E9365CF022619ED700CA05E4 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9365CEF22619ED700CA05E4 /* NSString+Extension.m */; };
 		E9BBC39B2242B57E00E6ACDA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC39A2242B57E00E6ACDA /* AppDelegate.m */; };
 		E9BBC39E2242B57E00E6ACDA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC39D2242B57E00E6ACDA /* ViewController.m */; };
 		E9BBC3A02242B57F00E6ACDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9BBC39F2242B57F00E6ACDA /* Assets.xcassets */; };
@@ -109,6 +113,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E9365CE522619E9400CA05E4 /* DIMProfile+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMProfile+Extension.h"; sourceTree = "<group>"; };
+		E9365CE622619E9400CA05E4 /* DIMProfile+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DIMProfile+Extension.m"; sourceTree = "<group>"; };
+		E9365CE822619EBD00CA05E4 /* UIColor+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
+		E9365CE922619EBD00CA05E4 /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
+		E9365CEA22619EBD00CA05E4 /* UIColor+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
+		E9365CEB22619EBD00CA05E4 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
+		E9365CEE22619ED700CA05E4 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
+		E9365CEF22619ED700CA05E4 /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
 		E9BBC3962242B57E00E6ACDA /* Sechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BBC3992242B57E00E6ACDA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E9BBC39A2242B57E00E6ACDA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -179,6 +191,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E9365CE422619E4B00CA05E4 /* extends */ = {
+			isa = PBXGroup;
+			children = (
+				E9365CEE22619ED700CA05E4 /* NSString+Extension.h */,
+				E9365CEF22619ED700CA05E4 /* NSString+Extension.m */,
+				E9365CE822619EBD00CA05E4 /* UIColor+Extension.h */,
+				E9365CEA22619EBD00CA05E4 /* UIColor+Extension.m */,
+				E9365CE922619EBD00CA05E4 /* UIImage+Extension.h */,
+				E9365CEB22619EBD00CA05E4 /* UIImage+Extension.m */,
+				E9365CE522619E9400CA05E4 /* DIMProfile+Extension.h */,
+				E9365CE622619E9400CA05E4 /* DIMProfile+Extension.m */,
+			);
+			path = extends;
+			sourceTree = "<group>";
+		};
 		E9BBC38D2242B57E00E6ACDA = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +267,9 @@
 		E9BBC3C92242B5F200E6ACDA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E9365CE422619E4B00CA05E4 /* extends */,
+				E9ECBB7D22621F3F00DB6929 /* Controllers */,
+				E9ECBB7E22621F3F00DB6929 /* Views */,
 				E9BBC3DB2242B6F600E6ACDA /* Models */,
 				E9BBC4342242BC5800E6ACDA /* Client.h */,
 				E9BBC4352242BC5800E6ACDA /* Client.m */,
@@ -262,6 +292,8 @@
 		E9BBC3DB2242B6F600E6ACDA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E9BBC3E22242B6F600E6ACDA /* User.h */,
+				E9BBC3DE2242B6F600E6ACDA /* User.m */,
 				E9BBC3DF2242B6F600E6ACDA /* Facebook.h */,
 				E9BBC3E52242B6F600E6ACDA /* Facebook.m */,
 				E9BBC3E32242B6F600E6ACDA /* Facebook+Register.h */,
@@ -270,8 +302,6 @@
 				E9BBC3E12242B6F600E6ACDA /* MessageProcessor.m */,
 				E9BBC3E42242B6F600E6ACDA /* MessageProcessor+GroupCommand.h */,
 				E9BBC3E02242B6F600E6ACDA /* MessageProcessor+GroupCommand.m */,
-				E9BBC3E22242B6F600E6ACDA /* User.h */,
-				E9BBC3DE2242B6F600E6ACDA /* User.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -295,6 +325,20 @@
 				E9BBC4732242C0A700E6ACDA /* DIMClientTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E9ECBB7D22621F3F00DB6929 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E9ECBB7E22621F3F00DB6929 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -467,9 +511,13 @@
 				E9BBC3E72242B6F600E6ACDA /* User.m in Sources */,
 				E9BBC3E62242B6F600E6ACDA /* Facebook+Register.m in Sources */,
 				E9BBC39E2242B57E00E6ACDA /* ViewController.m in Sources */,
+				E9365CED22619EBD00CA05E4 /* UIImage+Extension.m in Sources */,
 				E9BBC3A62242B57F00E6ACDA /* main.m in Sources */,
+				E9365CEC22619EBD00CA05E4 /* UIColor+Extension.m in Sources */,
+				E9365CF022619ED700CA05E4 /* NSString+Extension.m in Sources */,
 				E9BBC3E82242B6F600E6ACDA /* MessageProcessor+GroupCommand.m in Sources */,
 				E9BBC4362242BC5800E6ACDA /* Client.m in Sources */,
+				E9365CE722619E9400CA05E4 /* DIMProfile+Extension.m in Sources */,
 				E9BBC3E92242B6F600E6ACDA /* MessageProcessor.m in Sources */,
 				E9BBC39B2242B57E00E6ACDA /* AppDelegate.m in Sources */,
 				E9BBC3EA2242B6F600E6ACDA /* Facebook.m in Sources */,

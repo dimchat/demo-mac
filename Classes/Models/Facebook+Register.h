@@ -21,10 +21,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)removeUser:(const DIMUser *)user;
 
-- (BOOL)saveProfile:(const DIMProfile *)profile forEntityID:(const DIMID *)ID;
+- (BOOL)saveProfile:(const DIMProfile *)profile forID:(const DIMID *)ID;
+- (nullable DIMProfile *)loadProfileForID:(const DIMID *)ID;
 
 - (BOOL)saveMembers:(const NSArray<const DIMID *> *)list withGroupID:(const DIMID *)grp;
 - (NSArray<const DIMID *> *)loadMembersWithGroupID:(const DIMID *)grp;
+
+@end
+
+#pragma mark - Avatar
+
+extern const NSString *kNotificationName_AvatarUpdated;
+
+@interface Facebook (Avatar)
+
+- (BOOL)saveAvatar:(const NSData *)data
+              name:(nullable NSString *)filename
+             forID:(const DIMID *)ID;
+
+- (nullable NSImage *)loadAvatarWithURL:(NSString *)urlString
+                                  forID:(const DIMID *)ID;
 
 @end
 

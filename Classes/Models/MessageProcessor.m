@@ -49,16 +49,17 @@ static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
     return [dir stringByAppendingPathComponent:filename];
 }
 
-static inline NSArray *load_message(const DIMID *ID) {
-    NSArray *array = nil;
-    NSString *path = full_filepath(ID, @"messages.plist");
-    if (file_exists(path)) {
-        array = [NSArray arrayWithContentsOfFile:path];
-    }
-    return array;
-}
+//static inline NSArray *load_message(const DIMID *ID) {
+//    NSArray *array = nil;
+//    NSString *path = full_filepath(ID, @"messages.plist");
+//    if (file_exists(path)) {
+//        array = [NSArray arrayWithContentsOfFile:path];
+//    }
+//    return array;
+//}
 
 static inline BOOL save_message(NSArray *messages, const DIMID *ID) {
+    messages = [messages copy];
     NSString *path = full_filepath(ID, @"messages.plist");
     NSLog(@"save path: %@", path);
     return [messages writeToFile:path atomically:YES];
@@ -71,7 +72,7 @@ static inline BOOL remove_messages(const DIMID *ID) {
 
 static inline BOOL clear_messages(const DIMID *ID) {
     NSString *path = full_filepath(ID, @"messages.plist");
-    NSArray *empty = [[NSArray alloc] init];
+    NSMutableArray *empty = [[NSMutableArray alloc] init];
     return [empty writeToFile:path atomically:YES];
 }
 
@@ -87,33 +88,34 @@ static inline NSMutableDictionary *scan_messages(void) {
     Facebook *fb = [Facebook sharedInstance];
     
     NSString *addr;
-    NSArray *array;
+    NSMutableArray *array;
     
     const DIMID *ID;
     DIMAddress *address;
     
     NSString *path;
     while (path = [de nextObject]) {
-        if ([path hasSuffix:@"/messages.plist"]) {
-            addr = [path substringToIndex:(path.length - 15)];
-            address = [DIMAddress addressWithAddress:addr];
-//            if (!MKMNetwork_IsPerson(address.network) &&
-//                !MKMNetwork_IsGroup(address.network)) {
-//                // ignore
-//                continue;
-//            }
-            
-            path = [dir stringByAppendingPathComponent:path];
-            array = [NSArray arrayWithContentsOfFile:path];
-            NSLog(@"loaded %lu message(s) from %@", array.count, path);
-            
-            ID = [fb IDWithAddress:address];
-            if (array && ID) {
-                NSLog(@"ID: %@", ID);
-                [mDict setObject:array forKey:ID];
-            } else {
-                NSLog(@"failed to load message in path: %@", path);
-            }
+        if (![path hasSuffix:@"/messages.plist"]) {
+            // no messages
+            continue;
+        }
+        addr = [path substringToIndex:(path.length - 15)];
+        address = [DIMAddress addressWithAddress:addr];
+        if (MKMNetwork_IsStation(address.network)) {
+            // ignore station history
+            continue;
+        }
+        
+        path = [dir stringByAppendingPathComponent:path];
+        array = [NSMutableArray arrayWithContentsOfFile:path];
+        NSLog(@"loaded %lu message(s) from %@", array.count, path);
+        
+        ID = [fb IDWithAddress:address];
+        if (array && ID) {
+            NSLog(@"ID: %@", ID);
+            [mDict setObject:array forKey:ID];
+        } else {
+            NSLog(@"failed to load message in path: %@", path);
         }
     }
     
@@ -171,23 +173,90 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (void)sortConversationList {
-    [_chatList sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+    /*
+     These constants are used to indicate how items in a request are ordered,
+     from the first one given in a method invocation or function call
+     to the last (that is, left to right in code).
+     
+     Given the function:
+     NSComparisonResult f(int a, int b)
+     
+     If:
+     a < b   then return NSOrderedAscending.
+     a > b   then return NSOrderedDescending.
+     a == b  then return NSOrderedSame.
+     */
+    NSComparator comparator = ^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         MessageList *table1 = [self->_chatHistory objectForKey:obj1];
         MessageList *table2 = [self->_chatHistory objectForKey:obj2];
         const DIMInstantMessage *msg1 = table1.lastObject;
         const DIMInstantMessage *msg2 = table2.lastObject;
         NSNumber *time1 = [msg1 objectForKey:@"time"];
         NSNumber *time2 = [msg2 objectForKey:@"time"];
-        return [time2 compare:time1];
-    }];
+        NSTimeInterval t1 = [time1 doubleValue];
+        NSTimeInterval t2 = [time2 doubleValue];
+        if (t1 < t2) {
+            return NSOrderedDescending;
+        } else if (t1 > t2) {
+            return NSOrderedAscending;
+        } else {
+            return NSOrderedSame;
+        }
+    };
+    _chatList = [_chatHistory.allKeys mutableCopy];
+    [_chatList sortUsingComparator:comparator];
 }
 
 - (void)setChatHistory:(NSMutableDictionary *)dict {
     _chatHistory = dict;
-    _chatList = [dict.allKeys mutableCopy];
     [self sortConversationList];
     
     _timesTable = [[NSMutableDictionary alloc] init];
+}
+
+- (BOOL)insertMessage:(const DIMInstantMessage *)iMsg forConversationID:(const DIMID *)ID {
+    
+    MessageList *list = [_chatHistory objectForKey:ID];
+    if (list.count == 0) {
+        // message list empty, create new one, even '_NSArray0'
+        list = [[MessageList alloc] init];
+        [_chatHistory setObject:list forKey:ID];
+    }
+    [list addObject:iMsg];
+    
+    // Burn After Reading
+    NSMutableArray *timeList = [_timesTable objectForKey:ID];
+    while (list.count > MAX_MESSAGES_SAVED_COUNT) {
+        [list removeObjectAtIndex:0];
+        if (timeList.count > 0) {
+            [timeList removeObjectAtIndex:0];
+        } else {
+            // FIXME: sometimes this would happen
+            //NSAssert(false, @"time list should not be empty here");
+        }
+    }
+    
+    if (save_message(list, ID)) {
+        NSLog(@"new message for %@ saved", ID);
+        [self sortConversationList];
+        return YES;
+    } else {
+        NSLog(@"failed to save new message for ID: %@", ID);
+        return NO;
+    }
+}
+
+- (NSString *)timeTagAtIndex:(NSInteger)index forConversationID:(const DIMID *)ID {
+    
+    NSMutableArray *timeList = [_timesTable objectForKey:ID];
+    if (timeList.count <= index) {
+        // new message appended, update 'timeTag'
+        MessageList *list = [_chatHistory objectForKey:ID];
+        timeList = time_for_messages(list);
+        NSAssert(timeList.count == list.count, @"time tags error: %@", timeList);
+        [_timesTable setObject:timeList forKey:ID];
+    }
+    return [timeList objectAtIndex:index];
 }
 
 - (BOOL)reloadData {
@@ -212,9 +281,16 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 - (BOOL)removeConversation:(DIMConversation *)chatBox {
     const DIMID *ID = chatBox.ID;
-    NSLog(@"clear conversation for %@", ID);
-    [_chatHistory removeObjectForKey:ID];
-    return remove_messages(ID);
+    NSLog(@"remove conversation for %@", ID);
+    BOOL removed = remove_messages(ID);
+    if (removed) {
+        [_chatHistory removeObjectForKey:ID];
+        [_chatList removeObject:ID];
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+                                            object:self
+                                          userInfo:@{@"ID": ID}];
+    }
+    return removed;
 }
 
 - (BOOL)clearConversationAtIndex:(NSInteger)index {
@@ -225,8 +301,14 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (BOOL)clearConversation:(DIMConversation *)chatBox {
     const DIMID *ID = chatBox.ID;
     NSLog(@"clear conversation for %@", ID);
-    [_chatHistory removeObjectForKey:ID];
-    return clear_messages(ID);
+    BOOL cleared = clear_messages(ID);
+    if (cleared) {
+        [[_chatHistory objectForKey:ID] removeAllObjects];
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+                                            object:self
+                                          userInfo:@{@"ID": ID}];
+    }
+    return cleared;
 }
 
 #pragma mark DIMConversationDataSource
@@ -235,16 +317,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (NSInteger)numberOfMessagesInConversation:(const DIMConversation *)chatBox {
     const DIMID *ID = chatBox.ID;
     
-    MessageList *list = [_chatHistory objectForKey:ID];
-    if (!list) {
-        // TODO: load data from local storage
-        NSArray *array = load_message(ID);
-        if (array) {
-            list = [array mutableCopy];
-            [_chatHistory setObject:list forKey:ID];
-        }
-    }
-    
+    NSArray *list = [_chatHistory objectForKey:ID];
     return list.count;
 }
 
@@ -252,29 +325,22 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (DIMInstantMessage *)conversation:(const DIMConversation *)chatBox messageAtIndex:(NSInteger)index {
     const DIMID *ID = chatBox.ID;
     
-    MessageList *list = [_chatHistory objectForKey:ID];
-    if (!list) {
-        // TODO: load data from local storage
-        NSArray *array = load_message(ID);
-        if (array) {
-            list = [array mutableCopy];
-            [_chatHistory setObject:list forKey:ID];
-        }
-    }
+    NSMutableArray *list = [_chatHistory objectForKey:ID];
     
     DIMInstantMessage *iMsg = nil;
     if (list.count > index) {
-        iMsg = [DIMInstantMessage messageWithMessage:[list objectAtIndex:index]];
+        NSDictionary *item = [list objectAtIndex:index];
+        iMsg = [DIMInstantMessage messageWithMessage:item];
+        if (iMsg != item) {
+            // replace InstantMessage object for next access
+            [list replaceObjectAtIndex:index withObject:iMsg];
+        }
     } else {
         NSAssert(false, @"out of data");
     }
     
-    NSMutableArray *timeList = [_timesTable objectForKey:ID];
-    if (timeList.count < list.count) {
-        timeList = time_for_messages(list);
-        [_timesTable setObject:timeList forKey:ID];
-    }
-    [iMsg setObject:[timeList objectAtIndex:index] forKey:@"timeTag"];
+    NSString *timeTag = [self timeTagAtIndex:index forConversationID:ID];
+    [iMsg setObject:timeTag forKey:@"timeTag"];
     
     return iMsg;
 }
@@ -303,7 +369,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 // save the new message to local storage
-- (BOOL)conversation:(const DIMConversation *)chatBox insertMessage:(const DIMInstantMessage *)iMsg {
+- (BOOL)conversation:(const DIMConversation *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
     const DIMID *ID = chatBox.ID;
     
     // system command
@@ -326,27 +392,27 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         }
     }
     
-    // TODO: save message in local storage,
-    //       if the chat box is visiable, call it to reload data
-    
-    MessageList *list = [_chatHistory objectForKey:ID];
-    if (!list) {
-        list = [[MessageList alloc] init];
-        [_chatHistory setObject:list forKey:ID];
+    // check whether the group members info is updated
+    if (MKMNetwork_IsGroup(ID.type)) {
+        DIMGroup *group = DIMGroupWithID(ID);
+        if (group.founder == nil) {
+            const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
+            NSAssert(sender != nil, @"sender error: %@", iMsg);
+            
+            DIMQueryGroupCommand *query;
+            query = [[DIMQueryGroupCommand alloc] initWithGroup:ID];
+            
+            Client *client = [Client sharedInstance];
+            [client sendContent:query to:sender];
+        }
     }
     
-    [list addObject:iMsg];
-    // Burn After Reading
-    while (list.count > MAX_MESSAGES_SAVED_COUNT) {
-        [list removeObjectAtIndex:0];
-    }
-    
-    if (save_message(list, ID)) {
-        NSLog(@"new message for %@ saved", ID);
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
+    if ([self insertMessage:iMsg forConversationID:ID]) {
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+                                            object:self
+                                          userInfo:@{@"ID": ID}];
         return YES;
     } else {
-        NSLog(@"failed to save new message for ID: %@", ID);
         return NO;
     }
 }

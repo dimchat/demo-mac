@@ -10,6 +10,12 @@
 
 @interface ViewController : NSViewController
 
+@property (weak) IBOutlet NSTextField *usernameTextField;
+@property (weak) IBOutlet NSTextField *addressTextField;
+@property (weak) IBOutlet NSTextField *numberTextField;
+
+- (IBAction)onGenerateClicked:(NSButton *)sender;
+- (IBAction)onRegisterClicked:(NSButton *)sender;
 
 @end
 

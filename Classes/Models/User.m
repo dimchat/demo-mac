@@ -38,7 +38,7 @@ NSString *readable_name(const DIMID *ID) {
     NSString *username = ID.name;
     if (nickname) {
         if (username && MKMNetwork_IsCommunicator(ID.type)) {
-            return [NSString stringWithFormat:@"%@(%@)", nickname, username];
+            return [NSString stringWithFormat:@"%@ (%@)", nickname, username];
         }
         return nickname;
     } else if (username) {
@@ -82,7 +82,7 @@ BOOL check_username(const NSString *username) {
         if (!profile.ID) {
             [profile setObject:ID forKey:@"ID"];
         }
-        [[Facebook sharedInstance] saveProfile:profile forEntityID:ID];
+        [[Facebook sharedInstance] saveProfile:profile forID:ID];
     }
     
     return user;
