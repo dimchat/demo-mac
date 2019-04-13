@@ -102,7 +102,7 @@ SingletonImplementations(Facebook, sharedInstance)
     }
 }
 
-- (const DIMID *)IDWithAddress:(const DIMAddress *)address {
+- (nullable const DIMID *)IDWithAddress:(const DIMAddress *)address {
     DIMID *ID;
     NSArray *tables = _contactsTable.allValues;
     for (NSArray *list in tables) {
@@ -167,7 +167,7 @@ SingletonImplementations(Facebook, sharedInstance)
 }
 
 // {document_directory}/.mkm/{address}/contacts.plist
-- (ContactTable *)reloadContactsWithUser:(DIMUser *)user {
+- (nullable ContactTable *)reloadContactsWithUser:(DIMUser *)user {
     NSString *dir = document_directory();
     NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
     
@@ -203,6 +203,9 @@ SingletonImplementations(Facebook, sharedInstance)
     
     if (MKMNetwork_IsPerson(ID.type)) {
         meta = [_immortals metaForID:ID];
+        if (meta) {
+            return meta;
+        }
     }
     
     // TODO: load meta from database
@@ -462,7 +465,7 @@ SingletonImplementations(Facebook, sharedInstance)
     if (profile) {
         // check cache expires
         NSNumber *timestamp = [profile objectForKey:@"lastTime"];
-        if (timestamp) {
+        if (timestamp != nil) {
             NSDate *lastTime = NSDateFromNumber(timestamp);
             NSTimeInterval ti = [lastTime timeIntervalSinceNow];
             if (fabs(ti) > 300) {

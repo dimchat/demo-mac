@@ -328,11 +328,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     
     // TODO: save message in local storage,
     //       if the chat box is visiable, call it to reload data
-    BOOL newConvers = NO;
     
     MessageList *list = [_chatHistory objectForKey:ID];
     if (!list) {
-        newConvers = YES;
         list = [[MessageList alloc] init];
         [_chatHistory setObject:list forKey:ID];
     }

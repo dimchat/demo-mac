@@ -26,8 +26,8 @@ SingletonImplementations(Client, sharedInstance)
     {
         DIMID *ID = [config objectForKey:@"ID"];
         ID = [DIMID IDWithID:ID];
-        DIMID *founder = [config objectForKey:@"founder"];
-        founder = [DIMID IDWithID:founder];
+//        DIMID *founder = [config objectForKey:@"founder"];
+//        founder = [DIMID IDWithID:founder];
         
         sp = [[DIMServiceProvider alloc] initWithID:ID];
     }
@@ -56,7 +56,7 @@ SingletonImplementations(Client, sharedInstance)
         [launchOptions setObject:ipTable forKey:@"NewDNS"];
     }
     NSNumber *port = [station objectForKey:@"port"];
-    if (port) {
+    if (port != nil) {
         [launchOptions setObject:port forKey:@"LongLinkPort"];
     }
     

@@ -652,7 +652,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 4N8627W97S;
+				DEVELOPMENT_TEAM = 64J35P7HJ6;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
 					"../../core-objc/Classes/**",
@@ -663,7 +663,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = DIM.Sechat;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.sechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -675,7 +675,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 4N8627W97S;
+				DEVELOPMENT_TEAM = 64J35P7HJ6;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
 					"../../core-objc/Classes/**",
@@ -686,7 +686,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = DIM.Sechat;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.sechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
