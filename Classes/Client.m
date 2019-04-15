@@ -114,6 +114,18 @@ SingletonImplementations(Client, sharedInstance)
     
     Facebook *facebook = [Facebook sharedInstance];
     [facebook addStation:ID provider:sp];
+    
+    //Load current user
+    if(_currentStation != nil){
+        
+        NSString *currentUserID = [[NSUserDefaults standardUserDefaults] objectForKey:@"Current_User_ID"];
+        
+        if(currentUserID != nil){
+            MKMID *currentID = [[MKMID alloc] initWithString:currentUserID];
+            DIMUser *user = [[DIMUser alloc] initWithID:currentID];
+            _currentStation.currentUser = user;
+        }
+    }
 }
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {

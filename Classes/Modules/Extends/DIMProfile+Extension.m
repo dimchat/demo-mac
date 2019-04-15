@@ -7,7 +7,7 @@
 //
 
 #import "UIImage+Extension.h"
-#import "UIColor+Extension.h"
+#import "NSColor+Hex.h"
 
 #import "Client.h"
 #import "Facebook+Register.h"
@@ -45,7 +45,7 @@
         if (bgImage) {
             image = [NSImage imageWithText:text size:size color:textColor backgroundImage:bgImage];
         } else {
-            NSColor *bgColor = [NSColor colorWithHexString:@"1F1F0A"];
+            NSColor *bgColor = [NSColor colorWithHexColorString:@"1F1F0A"];
             image = [NSImage imageWithText:text size:size color:textColor backgroundColor:bgColor];
         }
         
@@ -89,7 +89,7 @@
                     }
                 }
             }
-            NSColor *bgColor = [NSColor colorWithHexString:@"E0E0F5"];
+            NSColor *bgColor = [NSColor colorWithHexColorString:@"E0E0F5"];
             image = [NSImage tiledImages:mArray size:size backgroundColor:bgColor];
             break;
         }
@@ -106,7 +106,7 @@
         NSString *text = [name substringToIndex:1];
         //text = [NSString stringWithFormat:@"[%@]", text];
         NSColor *textColor = [NSColor blackColor];
-        NSColor *bgColor = [NSColor colorWithHexString:@"E0E0F5"];
+        NSColor *bgColor = [NSColor colorWithHexColorString:@"E0E0F5"];
         image = [NSImage imageWithText:text size:size color:textColor backgroundColor:bgColor];
         
         break;
