@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		52181AA5226186610095FEEB /* BaseWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52181AA4226186610095FEEB /* BaseWindowController.m */; };
+		522AFDAC2265CBBB003EDA9C /* ContactListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 522AFDA92265CBBB003EDA9C /* ContactListViewCell.m */; };
 		52531BA82264689700B70E07 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52531BA22264689700B70E07 /* UIImage+Extension.m */; };
 		52531BA92264689700B70E07 /* DIMProfile+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52531BA32264689700B70E07 /* DIMProfile+Extension.m */; };
 		52531BAB2264689700B70E07 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52531BA52264689700B70E07 /* NSString+Extension.m */; };
@@ -133,6 +134,8 @@
 /* Begin PBXFileReference section */
 		52181AA2226186610095FEEB /* BaseWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseWindowController.h; sourceTree = "<group>"; };
 		52181AA4226186610095FEEB /* BaseWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseWindowController.m; sourceTree = "<group>"; };
+		522AFDA92265CBBB003EDA9C /* ContactListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactListViewCell.m; sourceTree = "<group>"; };
+		522AFDAB2265CBBB003EDA9C /* ContactListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListViewCell.h; sourceTree = "<group>"; };
 		52531B9F2264689700B70E07 /* DIMProfile+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMProfile+Extension.h"; sourceTree = "<group>"; };
 		52531BA02264689700B70E07 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
 		52531BA22264689700B70E07 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
@@ -316,6 +319,8 @@
 		529BEE4722473248007C6568 /* Contact */ = {
 			isa = PBXGroup;
 			children = (
+				522AFDAB2265CBBB003EDA9C /* ContactListViewCell.h */,
+				522AFDA92265CBBB003EDA9C /* ContactListViewCell.m */,
 				52531BB22264776D00B70E07 /* ContactListViewController.h */,
 				52531BB32264776D00B70E07 /* ContactListViewController.m */,
 				52531BB42264776D00B70E07 /* ContactListViewController.xib */,
@@ -661,6 +666,7 @@
 				52531BB52264776D00B70E07 /* ContactListViewController.m in Sources */,
 				52181AA5226186610095FEEB /* BaseWindowController.m in Sources */,
 				52531BA82264689700B70E07 /* UIImage+Extension.m in Sources */,
+				522AFDAC2265CBBB003EDA9C /* ContactListViewCell.m in Sources */,
 				E9BBC3E82242B6F600E6ACDA /* MessageProcessor+GroupCommand.m in Sources */,
 				52531BAB2264689700B70E07 /* NSString+Extension.m in Sources */,
 				E9BBC4362242BC5800E6ACDA /* Client.m in Sources */,

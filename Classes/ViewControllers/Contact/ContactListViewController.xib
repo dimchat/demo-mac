@@ -8,6 +8,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ContactListViewController">
             <connections>
+                <outlet property="searchField" destination="Che-2u-xuP" id="AV1-g1-3Jo"/>
+                <outlet property="tableView" destination="3k0-Zh-TEe" id="yly-cW-AXv"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -28,6 +30,9 @@
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </searchFieldCell>
+                    <connections>
+                        <outlet property="delegate" destination="-2" id="BBh-Wg-4Nh"/>
+                    </connections>
                 </searchField>
                 <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DVI-Ze-Irw">
                     <rect key="frame" x="0.0" y="0.0" width="258" height="427"/>
@@ -76,6 +81,10 @@
                                         </prototypeCellViews>
                                     </tableColumn>
                                 </tableColumns>
+                                <connections>
+                                    <outlet property="dataSource" destination="-2" id="JvE-B7-gz1"/>
+                                    <outlet property="delegate" destination="-2" id="OtF-VV-DKN"/>
+                                </connections>
                             </tableView>
                         </subviews>
                     </clipView>
@@ -98,7 +107,7 @@
                 <constraint firstItem="Che-2u-xuP" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="fCl-3w-8qQ"/>
                 <constraint firstAttribute="trailing" secondItem="DVI-Ze-Irw" secondAttribute="trailing" id="wln-Aq-oFZ"/>
             </constraints>
-            <point key="canvasLocation" x="-317" y="143.5"/>
+            <point key="canvasLocation" x="-915" y="73"/>
         </customView>
     </objects>
 </document>
