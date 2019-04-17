@@ -79,7 +79,7 @@ SingletonImplementations(Client, sharedInstance)
     ID = [DIMID IDWithID:ID];
     DIMMeta *meta = [station objectForKey:@"meta"];
     meta = [DIMMeta metaWithMeta:meta];
-    [[DIMBarrack sharedInstance] saveMeta:meta forID:ID];
+    [[DIMBarrack sharedInstance] setMeta:meta forID:ID];
     
     // prepare for launch star
     NSMutableDictionary *serverOptions = [[NSMutableDictionary alloc] init];
