@@ -109,7 +109,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
     
     // 1. check & save meta
-    if ([barrack saveMeta:meta forEntityID:ID]) {
+    if ([barrack saveMeta:meta forID:ID]) {
         NSLog(@"meta saved: %@", meta);
     } else {
         NSAssert(false, @"save meta failed: %@, %@", ID, meta);

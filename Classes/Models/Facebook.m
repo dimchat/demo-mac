@@ -21,6 +21,12 @@
 
 #import "Facebook.h"
 
+@interface DIMBarrack (Hacking)
+
+- (nullable const DIMMeta *)loadMetaForID:(const DIMID *)ID;
+
+@end
+
 const NSString *kNotificationName_ContactsUpdated = @"ContactsUpdated";
 
 typedef NSMutableDictionary<const DIMAddress *, DIMProfile *> ProfileTableM;
