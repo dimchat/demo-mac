@@ -7,10 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "Protocols.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ContactListViewController : NSViewController
+
+@property(nonatomic, assign) id<NSObject, ListViewControllerDelegate>delegate;
 
 @end
 

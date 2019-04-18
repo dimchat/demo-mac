@@ -34,6 +34,8 @@
 		529D2C03224A2C44005D19A5 /* ChatMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 529D2C02224A2C44005D19A5 /* ChatMessageCell.m */; };
 		529D2C10224A307A005D19A5 /* LoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 529D2C0D224A307A005D19A5 /* LoginWindowController.m */; };
 		529D2C11224A307A005D19A5 /* LoginWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 529D2C0E224A307A005D19A5 /* LoginWindowController.xib */; };
+		52F9145A22685383002E912F /* ContactDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52F9145822685383002E912F /* ContactDetailViewController.m */; };
+		52F9145B22685383002E912F /* ContactDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52F9145922685383002E912F /* ContactDetailViewController.xib */; };
 		E9BBC39B2242B57E00E6ACDA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC39A2242B57E00E6ACDA /* AppDelegate.m */; };
 		E9BBC3A02242B57F00E6ACDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9BBC39F2242B57F00E6ACDA /* Assets.xcassets */; };
 		E9BBC3A62242B57F00E6ACDA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3A52242B57F00E6ACDA /* main.m */; };
@@ -179,6 +181,10 @@
 		529D2C0D224A307A005D19A5 /* LoginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginWindowController.m; sourceTree = "<group>"; };
 		529D2C0E224A307A005D19A5 /* LoginWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginWindowController.xib; sourceTree = "<group>"; };
 		529D2C0F224A307A005D19A5 /* LoginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginWindowController.h; sourceTree = "<group>"; };
+		52F914552268509F002E912F /* Protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Protocols.h; sourceTree = "<group>"; };
+		52F9145722685383002E912F /* ContactDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactDetailViewController.h; sourceTree = "<group>"; };
+		52F9145822685383002E912F /* ContactDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactDetailViewController.m; sourceTree = "<group>"; };
+		52F9145922685383002E912F /* ContactDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactDetailViewController.xib; sourceTree = "<group>"; };
 		E9BBC3962242B57E00E6ACDA /* Sechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BBC3992242B57E00E6ACDA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E9BBC39A2242B57E00E6ACDA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -324,6 +330,9 @@
 				52531BB22264776D00B70E07 /* ContactListViewController.h */,
 				52531BB32264776D00B70E07 /* ContactListViewController.m */,
 				52531BB42264776D00B70E07 /* ContactListViewController.xib */,
+				52F9145722685383002E912F /* ContactDetailViewController.h */,
+				52F9145822685383002E912F /* ContactDetailViewController.m */,
+				52F9145922685383002E912F /* ContactDetailViewController.xib */,
 			);
 			path = Contact;
 			sourceTree = "<group>";
@@ -424,6 +433,7 @@
 				E9BBC3DB2242B6F600E6ACDA /* Models */,
 				E9BBC4342242BC5800E6ACDA /* Client.h */,
 				E9BBC4352242BC5800E6ACDA /* Client.m */,
+				52F914552268509F002E912F /* Protocols.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -620,6 +630,7 @@
 				529BEE55224737F3007C6568 /* MainMenu.xib in Resources */,
 				E9BBC3A02242B57F00E6ACDA /* Assets.xcassets in Resources */,
 				528B499A2247D8B1009519F9 /* ChatDetailViewController.xib in Resources */,
+				52F9145B22685383002E912F /* ContactDetailViewController.xib in Resources */,
 				529BEE4D22473248007C6568 /* ChatListViewController.xib in Resources */,
 				52531BB62264776D00B70E07 /* ContactListViewController.xib in Resources */,
 				529BEE5322473664007C6568 /* MainWindowController.xib in Resources */,
@@ -670,6 +681,7 @@
 				E9BBC3E82242B6F600E6ACDA /* MessageProcessor+GroupCommand.m in Sources */,
 				52531BAB2264689700B70E07 /* NSString+Extension.m in Sources */,
 				E9BBC4362242BC5800E6ACDA /* Client.m in Sources */,
+				52F9145A22685383002E912F /* ContactDetailViewController.m in Sources */,
 				E9BBC3E92242B6F600E6ACDA /* MessageProcessor.m in Sources */,
 				E9BBC39B2242B57E00E6ACDA /* AppDelegate.m in Sources */,
 				529D2C10224A307A005D19A5 /* LoginWindowController.m in Sources */,

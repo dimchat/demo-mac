@@ -1,15 +1,10 @@
 #import <Cocoa/Cocoa.h>
 #import "ChatListViewCell.h"
-
-@protocol ChatListViewControllerDelegate <NSObject>
-
--(void)didSelectCell:(ChatListViewCell *)cell;
-
-@end
+#import "Protocols.h"
 
 @interface ChatListViewController : NSViewController<NSTableViewDelegate, NSTableViewDataSource>
 
-@property(nonatomic, assign) id<NSObject, ChatListViewControllerDelegate>delegate;
+@property(nonatomic, assign) id<NSObject, ListViewControllerDelegate>delegate;
 @property (strong) IBOutlet NSTableView *tableView;
 
 @end

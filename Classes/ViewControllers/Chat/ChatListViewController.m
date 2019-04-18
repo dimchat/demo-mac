@@ -35,7 +35,7 @@
     if(self.delegate != nil){
         
         ChatListViewCell *cell = (ChatListViewCell *)[self.tableView selectedCell];
-        [self.delegate didSelectCell:cell];
+        [self.delegate listViewController:self didSelectCell:cell];
     }
 }
 

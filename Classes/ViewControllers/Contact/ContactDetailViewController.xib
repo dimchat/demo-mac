@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ContactDetailViewController">
+            <connections>
+                <outlet property="avatarImageView" destination="ZBh-8E-zuc" id="gPU-xa-uQr"/>
+                <outlet property="nicknameLabel" destination="qXO-bE-yfT" id="YCf-w1-7Nd"/>
+                <outlet property="numberLabel" destination="pXL-9G-UTn" id="ryL-wQ-ZbB"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="796" height="478"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZBh-8E-zuc">
+                    <rect key="frame" x="323" y="308" width="150" height="150"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="150" id="5dB-Pv-WdZ"/>
+                        <constraint firstAttribute="width" constant="150" id="HAh-HN-Hy9"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="bit-1n-CQT"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qXO-bE-yfT">
+                    <rect key="frame" x="245" y="248" width="306" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="302" id="dWn-lH-lFQ"/>
+                        <constraint firstAttribute="height" constant="25" id="jtg-dL-tkA"/>
+                    </constraints>
+                    <textFieldCell key="cell" lineBreakMode="clipping" allowsUndo="NO" alignment="center" title="nickname" id="IYI-Pp-a4F">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXL-9G-UTn">
+                    <rect key="frame" x="245" y="190" width="306" height="28"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="28" id="CdP-Yv-bpB"/>
+                        <constraint firstAttribute="width" constant="302" id="WCt-UZ-GWK"/>
+                    </constraints>
+                    <textFieldCell key="cell" lineBreakMode="clipping" allowsUndo="NO" alignment="center" title="number" id="fkh-C0-qy1">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ayp-mK-ily">
+                    <rect key="frame" x="278" y="13" width="240" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="228" id="I83-f8-oHI"/>
+                        <constraint firstAttribute="height" constant="21" id="aCK-sC-Ond"/>
+                    </constraints>
+                    <buttonCell key="cell" type="push" title="Add Friend" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wqR-gb-YFi">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="qXO-bE-yfT" firstAttribute="top" secondItem="ZBh-8E-zuc" secondAttribute="bottom" constant="35" id="Qfq-ba-luK"/>
+                <constraint firstAttribute="bottom" secondItem="Ayp-mK-ily" secondAttribute="bottom" constant="20" id="U2p-3O-dDa"/>
+                <constraint firstItem="pXL-9G-UTn" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="Z4e-p5-ZXb"/>
+                <constraint firstItem="ZBh-8E-zuc" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="an5-FR-xUq"/>
+                <constraint firstItem="pXL-9G-UTn" firstAttribute="top" secondItem="qXO-bE-yfT" secondAttribute="bottom" constant="30" id="eK0-9m-ApF"/>
+                <constraint firstItem="qXO-bE-yfT" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="eP0-JD-2Bb"/>
+                <constraint firstItem="ZBh-8E-zuc" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="irE-8M-bra"/>
+                <constraint firstItem="Ayp-mK-ily" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="zzD-7F-q5z"/>
+            </constraints>
+            <point key="canvasLocation" x="-395" y="29"/>
+        </customView>
+    </objects>
+</document>

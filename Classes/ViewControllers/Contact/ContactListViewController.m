@@ -142,30 +142,12 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     
-    ContactListViewCell *cell = (ContactListViewCell *)[self.tableView selectedCell];
-    DIMAccount *account = cell.account;
-    
-    Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    
-    // send meta & profile first as handshake
-    const DIMMeta *meta = DIMMetaForID(user.ID);
-    DIMProfile *profile = DIMProfileForID(user.ID);
-    DIMCommand *cmd;
-    if (profile) {
-        cmd = [[DIMProfileCommand alloc] initWithID:user.ID
-                                               meta:meta
-                                         privateKey:user.privateKey
-                                            profile:profile];
-    } else {
-        cmd = [[DIMMetaCommand alloc] initWithID:user.ID meta:meta];
-    }
-    [client sendContent:cmd to:account.ID];
-    
-    // add to contacts
-    Facebook *facebook = [Facebook sharedInstance];
-    [facebook user:user addContact:account.ID];
-    NSLog(@"contact %@ added to user %@", account, user);
+    NSLog(@"Select row %@", notification);
+//    if(self.delegate != nil){
+//        
+//        ContactListViewCell *cell = (ContactListViewCell *)[self.tableView selectedCell];
+//        [self.delegate listViewController:self didSelectCell:cell];
+//    }
 }
 
 @end

@@ -2,15 +2,19 @@
 #import "ChatListViewController.h"
 #import "ChatDetailViewController.h"
 #import "ContactListViewController.h"
+#import "ContactDetailViewController.h"
 #import "LoginWindowController.h"
 #import "Client.h"
+#import "ContactListViewCell.h"
 
-@interface MainWindowController ()<NSSplitViewDelegate, ChatListViewControllerDelegate>
+@interface MainWindowController ()<NSSplitViewDelegate, ListViewControllerDelegate>
 
 @property (strong) IBOutlet NSSplitView *splitView;
 @property (strong) ChatListViewController *chatListViewController;
-@property (strong) ContactListViewController *contactListViewController;
 @property (nonatomic, strong) ChatDetailViewController *chatDetailViewController;
+@property (nonatomic, strong) ContactListViewController *contactListViewController;
+@property (nonatomic, strong) ContactDetailViewController *contactDetailViewController;
+
 @property (nonatomic, strong) LoginWindowController *loginController;
 @property (strong) IBOutlet NSView *tabView;
 
@@ -72,6 +76,7 @@
     
     if(self.contactListViewController == nil){
         self.contactListViewController = [[ContactListViewController alloc] initWithNibName:@"ContactListViewController" bundle:nil];
+        self.contactListViewController.delegate = self;
     }
     
     [self addViewToListView:self.contactListViewController.view];
@@ -80,13 +85,26 @@
 - (IBAction)didPressSettingButton:(id)sender {
 }
 
--(void)didSelectCell:(ChatListViewCell *)cell{
+-(void)listViewController:(NSViewController *)controller didSelectCell:(NSView *)cell{
     
-    if(self.chatDetailViewController == nil){
-        self.chatDetailViewController = [[ChatDetailViewController alloc] initWithNibName:@"ChatDetailViewController" bundle:nil];
+    if(controller == self.chatListViewController){
+    
+        if(self.chatDetailViewController == nil){
+            self.chatDetailViewController = [[ChatDetailViewController alloc] initWithNibName:@"ChatDetailViewController" bundle:nil];
+        }
+        
+        [self addViewToDetailView:self.chatDetailViewController.view];
+        
+    } else if (controller == self.contactListViewController){
+        
+        if(self.contactDetailViewController == nil){
+            self.contactDetailViewController = [[ContactDetailViewController alloc] initWithNibName:@"ContactDetailViewController" bundle:nil];
+        }
+        
+        ContactListViewCell *listCell = (ContactListViewCell *)cell;
+        self.contactDetailViewController.account = listCell.account;
+        [self addViewToDetailView:self.contactDetailViewController.view];
     }
-    
-    [self addViewToDetailView:self.chatDetailViewController.view];
 }
 
 -(void)addViewToListView:(NSView *)v{
