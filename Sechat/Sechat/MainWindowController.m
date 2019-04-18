@@ -1,6 +1,7 @@
 #import "MainWindowController.h"
 #import "ChatListViewController.h"
 #import "ChatDetailViewController.h"
+#import "ContactListViewController.h"
 #import "LoginWindowController.h"
 #import "Client.h"
 
@@ -8,6 +9,7 @@
 
 @property (strong) IBOutlet NSSplitView *splitView;
 @property (strong) ChatListViewController *chatListViewController;
+@property (strong) ContactListViewController *contactListViewController;
 @property (nonatomic, strong) ChatDetailViewController *chatDetailViewController;
 @property (nonatomic, strong) LoginWindowController *loginController;
 @property (strong) IBOutlet NSView *tabView;
@@ -67,6 +69,12 @@
 }
 
 - (IBAction)didPressContactButton:(id)sender {
+    
+    if(self.contactListViewController == nil){
+        self.contactListViewController = [[ContactListViewController alloc] initWithNibName:@"ContactListViewController" bundle:nil];
+    }
+    
+    [self addViewToListView:self.contactListViewController.view];
 }
 
 - (IBAction)didPressSettingButton:(id)sender {

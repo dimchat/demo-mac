@@ -39,13 +39,21 @@
     [client queryOnlineUsers];
 }
 
-- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
+- (void)searchFieldDidStartSearching:(NSSearchField *)sender{
     
     NSString *keywords = self.searchField.stringValue;
     
     Client *client = [Client sharedInstance];
     [client searchUsersWithKeywords:keywords];
 }
+
+//- (void)searchFieldDidEndSearching:(NSSearchField *)sender{
+//    
+//    NSString *keywords = self.searchField.stringValue;
+//    
+//    Client *client = [Client sharedInstance];
+//    [client searchUsersWithKeywords:keywords];
+//}
 
 - (void)reloadData:(NSNotification *)notification {
     
@@ -105,7 +113,7 @@
             value = [results objectForKey:key];
             if ([value isKindOfClass:[NSDictionary class]]) {
                 meta = [DIMMeta metaWithMeta:value];
-                [barrack saveMeta:meta forEntityID:ID];
+                [barrack saveMeta:meta forID:ID];
             }
         }
     }
