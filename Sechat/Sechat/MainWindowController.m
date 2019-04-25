@@ -85,7 +85,7 @@
 - (IBAction)didPressSettingButton:(id)sender {
 }
 
--(void)listViewController:(NSViewController *)controller didSelectCell:(NSView *)cell{
+-(void)listViewController:(NSViewController *)controller didSelectObject:(NSObject *)selectedObject{
     
     if(controller == self.chatListViewController){
     
@@ -101,8 +101,7 @@
             self.contactDetailViewController = [[ContactDetailViewController alloc] initWithNibName:@"ContactDetailViewController" bundle:nil];
         }
         
-        ContactListViewCell *listCell = (ContactListViewCell *)cell;
-        self.contactDetailViewController.account = listCell.account;
+        self.contactDetailViewController.account = (DIMAccount *)selectedObject;
         [self addViewToDetailView:self.contactDetailViewController.view];
     }
 }

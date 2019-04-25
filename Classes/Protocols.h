@@ -13,7 +13,7 @@
 
 @protocol ListViewControllerDelegate <NSObject>
 
--(void)listViewController:(NSViewController *)controller didSelectCell:(NSView *)cell;
+-(void)listViewController:(NSViewController *)controller didSelectObject:(NSObject *)selectedObject;
 
 @end
 

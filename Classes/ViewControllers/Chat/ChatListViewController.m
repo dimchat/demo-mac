@@ -32,11 +32,12 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     
-    if(self.delegate != nil){
-        
-        ChatListViewCell *cell = (ChatListViewCell *)[self.tableView selectedCell];
-        [self.delegate listViewController:self didSelectCell:cell];
-    }
+//    DIMID *selectedID = [_users objectAtIndex:self.tableView.selectedRow];
+//    DIMAccount *selectedAccount = DIMAccountWithID(selectedID);
+//
+//    if(self.delegate != nil){
+//        [self.delegate listViewController:self didSelectObject:cell];
+//    }
 }
 
 @end

@@ -62,6 +62,9 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="didPressAddFriendButton:" target="-2" id="9cF-M5-aoB"/>
+                    </connections>
                 </button>
             </subviews>
             <constraints>

@@ -143,11 +143,11 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     
     NSLog(@"Select row %@", notification);
-//    if(self.delegate != nil){
-//        
-//        ContactListViewCell *cell = (ContactListViewCell *)[self.tableView selectedCell];
-//        [self.delegate listViewController:self didSelectCell:cell];
-//    }
+    DIMID *selectedID = [_users objectAtIndex:self.tableView.selectedRow];
+    DIMAccount *selectedAccount = DIMAccountWithID(selectedID);
+    if(self.delegate != nil){
+        [self.delegate listViewController:self didSelectObject:selectedAccount];
+    }
 }
 
 @end
