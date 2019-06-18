@@ -52,7 +52,7 @@
                                  privateKey:SK
                                   publicKey:nil];
     // 3. generate ID
-    ID = [meta buildIDWithNetworkID:MKMNetwork_Main];
+    ID = [meta generateID:MKMNetwork_Main];
     
     Client *client = [Client sharedInstance];
     if (![client saveUser:ID meta:meta privateKey:SK name:nickname]) {

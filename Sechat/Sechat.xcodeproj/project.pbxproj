@@ -60,6 +60,7 @@
 		E9BBC49E2242C5BA00E6ACDA /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC47F2242C11900E6ACDA /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9BBC49F2242C5C500E6ACDA /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC4712242C0A700E6ACDA /* DIMClient.framework */; };
 		E9BBC4A02242C5C500E6ACDA /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9BBC4712242C0A700E6ACDA /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9FC8E2222B90AA00013FCD3 /* Facebook+Relationship.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FC8E2122B90AA00013FCD3 /* Facebook+Relationship.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,6 +218,8 @@
 		E9BBC47B2242C11300E6ACDA /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BBC47D2242C11600E6ACDA /* MarsGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarsGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BBC47F2242C11900E6ACDA /* FiniteStateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FiniteStateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9FC8E1F22B90AA00013FCD3 /* Facebook+Relationship.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook+Relationship.h"; sourceTree = "<group>"; };
+		E9FC8E2122B90AA00013FCD3 /* Facebook+Relationship.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Relationship.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -453,6 +456,8 @@
 			children = (
 				E9BBC3DF2242B6F600E6ACDA /* Facebook.h */,
 				E9BBC3E52242B6F600E6ACDA /* Facebook.m */,
+				E9FC8E1F22B90AA00013FCD3 /* Facebook+Relationship.h */,
+				E9FC8E2122B90AA00013FCD3 /* Facebook+Relationship.m */,
 				E9BBC3E32242B6F600E6ACDA /* Facebook+Register.h */,
 				E9BBC3DD2242B6F600E6ACDA /* Facebook+Register.m */,
 				E9BBC3DC2242B6F600E6ACDA /* MessageProcessor.h */,
@@ -668,6 +673,7 @@
 				528B499B2247D8B1009519F9 /* ChatDetailViewController.m in Sources */,
 				E9BBC3E72242B6F600E6ACDA /* User.m in Sources */,
 				529BEE4C22473248007C6568 /* ChatListViewController.m in Sources */,
+				E9FC8E2222B90AA00013FCD3 /* Facebook+Relationship.m in Sources */,
 				529BEE5922477ED4007C6568 /* ChatListViewCell.m in Sources */,
 				529BEE5222473664007C6568 /* MainWindowController.m in Sources */,
 				E9BBC3E62242B6F600E6ACDA /* Facebook+Register.m in Sources */,
@@ -855,7 +861,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = E2GJG6572J;
+				DEVELOPMENT_TEAM = 64J35P7HJ6;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
 					"../../core-objc/Classes/**",
@@ -879,7 +885,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = E2GJG6572J;
+				DEVELOPMENT_TEAM = 64J35P7HJ6;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
 					"../../core-objc/Classes/**",

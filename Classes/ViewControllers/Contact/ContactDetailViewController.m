@@ -69,7 +69,6 @@
     if (profile) {
         cmd = [[DIMProfileCommand alloc] initWithID:user.ID
                                                meta:meta
-                                         privateKey:user.privateKey
                                             profile:profile];
     } else {
         cmd = [[DIMMetaCommand alloc] initWithID:user.ID
@@ -79,7 +78,7 @@
     
     // add to contacts
     Facebook *facebook = [Facebook sharedInstance];
-    [facebook user:user addContact:_account.ID];
+//    [facebook user:user addContact:_account.ID];
     NSLog(@"contact %@ added to user %@", _account, user);
 }
 

@@ -26,7 +26,7 @@
  @return "Documents/.dim/{address}/messages.plist"
  */
 static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
-    assert(ID.isValid);
+    assert([ID isValid]);
     // base directory: Documents/.dim/{address}
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".dim"];
@@ -100,11 +100,11 @@ static inline NSMutableDictionary *scan_messages(void) {
             continue;
         }
         addr = [path substringToIndex:(path.length - 15)];
-        address = [DIMAddress addressWithAddress:addr];
-        if (MKMNetwork_IsStation(address.network)) {
-            // ignore station history
-            continue;
-        }
+        address = MKMAddressFromString(addr);
+//        if (MKMNetwork_IsStation(address.network)) {
+//            // ignore station history
+//            continue;
+//        }
         
         path = [dir stringByAppendingPathComponent:path];
         array = [NSMutableArray arrayWithContentsOfFile:path];
@@ -373,19 +373,20 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     const DIMID *ID = chatBox.ID;
     
     // system command
-    DIMMessageContent *content = iMsg.content;
-    if (content.type == DIMMessageType_Command) {
+    DIMContent *content = iMsg.content;
+    if (content.type == DIMContentType_Command) {
         NSString *command = content.command;
         NSLog(@"command: %@", command);
         
         // TODO: parse & execute system command
         // ...
         return YES;
-    } else if (content.type == DIMMessageType_History) {
-        const DIMID *groupID = [DIMID IDWithID:content.group];
+    } else if (content.type == DIMContentType_History) {
+        const DIMID *groupID = MKMIDFromString(content.group);
         if (groupID) {
-            const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
-            if (![self processGroupCommand:content commander:sender]) {
+            const DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
+            DIMGroupCommand *cmd = [[DIMGroupCommand alloc] initWithDictionary:content];
+            if (![self processGroupCommand:cmd commander:sender]) {
                 NSLog(@"group comment error: %@", content);
                 return NO;
             }
@@ -396,7 +397,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     if (MKMNetwork_IsGroup(ID.type)) {
         DIMGroup *group = DIMGroupWithID(ID);
         if (group.founder == nil) {
-            const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
+            const DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
             NSAssert(sender != nil, @"sender error: %@", iMsg);
             
             DIMQueryGroupCommand *query;

@@ -11,6 +11,7 @@
 #import "User.h"
 #import "Client.h"
 #import "Facebook+Register.h"
+#import "Facebook+Relationship.h"
 
 #import "MessageProcessor+GroupCommand.h"
 
@@ -18,30 +19,35 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
 
 @implementation MessageProcessor (GroupCommand)
 
-- (BOOL)_processQueryCommand:(DIMMessageContent *)content commander:(const DIMID *)sender polylogue:(DIMPolylogue *)group {
+- (BOOL)_processQueryCommand:(DIMGroupCommand *)gCmd
+                   commander:(const DIMID *)sender
+                   polylogue:(DIMPolylogue *)group {
     
     // 1. check permission
     if (![group existsMember:sender]) {
         NSAssert(false, @"%@ is not a member of polylogue: %@, cannot query.", sender, group);
         return NO;
     }
+    NSArray *members = group.members;
     
     // 2. pack command and send out
-    NSArray *members = group.members;
-    DIMInviteCommand *cmd = [[DIMInviteCommand alloc] initWithGroup:group.ID members:members];
+    DIMInviteCommand *invite;
+    invite = [[DIMInviteCommand alloc] initWithGroup:group.ID members:members];
     Client *client = [Client sharedInstance];
-    [client sendContent:cmd to:sender];
+    [client sendContent:invite to:sender];
     
     // 3. build message
     NSString *format = NSLocalizedString(@"%@ was querying group info, responsed.", nil);
     NSString *text = [NSString stringWithFormat:format, readable_name(sender)];
-    NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
-    [content setObject:text forKey:@"text"];
+    NSAssert(![gCmd objectForKey:@"text"], @"text should be empty here: %@", gCmd);
+    [gCmd setObject:text forKey:@"text"];
     
     return YES;
 }
 
-- (BOOL)_processResetCommand:(DIMMessageContent *)content commander:(const DIMID *)sender polylogue:(DIMPolylogue *)group {
+- (BOOL)_processResetCommand:(DIMGroupCommand *)gCmd
+                   commander:(const DIMID *)sender
+                   polylogue:(DIMPolylogue *)group {
     
     // 0. check permission
     if (![group isFounder:sender]) {
@@ -51,12 +57,12 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     
     NSArray *members = group.members;
     
-    NSArray *newMembers = [content objectForKey:@"members"];
+    const NSArray *newMembers = gCmd.members;
     if (newMembers.count > 0) {
         // replace item to ID objects
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:newMembers.count];
         for (NSString *item in newMembers) {
-            [mArray addObject:[DIMID IDWithID:item]];
+            [mArray addObject:MKMIDFromString(item)];
         }
         newMembers = mArray;
     }
@@ -101,7 +107,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         }
         NSString *str = [mArr componentsJoinedByString:@",\n"];
         text = [text stringByAppendingFormat:@", %@ %@", NSLocalizedString(@"removed", nil), str];
-        [content setObject:removeds forKey:@"removed"];
+        [gCmd setObject:removeds forKey:@"removed"];
     }
     if (addeds.count > 0) {
         NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:addeds.count];
@@ -110,15 +116,17 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         }
         NSString *str = [mArr componentsJoinedByString:@",\n"];
         text = [text stringByAppendingFormat:@", %@ %@", NSLocalizedString(@"invited", nil), str];
-        [content setObject:addeds forKey:@"added"];
+        [gCmd setObject:addeds forKey:@"added"];
     }
-    NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
-    [content setObject:text forKey:@"text"];
+    NSAssert(![gCmd objectForKey:@"text"], @"text should be empty here: %@", gCmd);
+    [gCmd setObject:text forKey:@"text"];
     
     return YES;
 }
 
-- (BOOL)_processInviteCommand:(DIMMessageContent *)content commander:(const DIMID *)sender polylogue:(DIMPolylogue *)group {
+- (BOOL)_processInviteCommand:(DIMGroupCommand *)gCmd
+                    commander:(const DIMID *)sender
+                    polylogue:(DIMPolylogue *)group {
     
     // 0. check permission
     if (![group isFounder:sender] && ![group existsMember:sender]) {
@@ -130,12 +138,12 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     
     NSMutableArray *newMembers = [[NSMutableArray alloc] initWithArray:members];
     
-    NSArray *invites = [content objectForKey:@"members"];
+    const NSArray *invites = gCmd.members;
     if (invites.count > 0) {
         // repace item to ID object
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:invites.count];
         for (NSString *item in invites) {
-            [mArray addObject:[DIMID IDWithID:item]];
+            [mArray addObject:MKMIDFromString(item)];
         }
         invites = mArray;
     }
@@ -145,7 +153,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         for (DIMID *item in invites) {
             if ([group isFounder:item]) {
                 // invite founder? it means this should be a 'reset' command
-                return [self _processResetCommand:content commander:sender polylogue:group];
+                return [self _processResetCommand:gCmd commander:sender polylogue:group];
             }
         }
     }
@@ -179,19 +187,21 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     // 4. build message
     NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:invites.count];
     for (DIMID *item in invites) {
-        [mArr addObject:readable_name([DIMID IDWithID:item])];
+        [mArr addObject:readable_name(MKMIDFromString(item))];
     }
     NSString *str = [mArr componentsJoinedByString:@",\n"];
     NSString *format = NSLocalizedString(@"%@ has invited member(s):\n%@.", nil);
     NSString *text = [NSString stringWithFormat:format, readable_name(sender), str];
-    NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
-    [content setObject:text forKey:@"text"];
-    [content setObject:addeds forKey:@"added"];
+    NSAssert(![gCmd objectForKey:@"text"], @"text should be empty here: %@", gCmd);
+    [gCmd setObject:text forKey:@"text"];
+    [gCmd setObject:addeds forKey:@"added"];
     
     return YES;
 }
 
-- (BOOL)_processExpelCommand:(DIMMessageContent *)content commander:(const DIMID *)sender polylogue:(DIMPolylogue *)group {
+- (BOOL)_processExpelCommand:(DIMGroupCommand *)gCmd
+                   commander:(const DIMID *)sender
+                   polylogue:(DIMPolylogue *)group {
     
     // 1. check permission
     if (![group isFounder:sender]) {
@@ -203,12 +213,12 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     
     NSMutableArray *newMembers = [[NSMutableArray alloc] initWithArray:members];
     
-    NSArray *expels = [content objectForKey:@"members"];
+    const NSArray *expels = gCmd.members;
     if (expels.count > 0) {
         // repace item to ID object
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:expels.count];
         for (NSString *item in expels) {
-            [mArray addObject:[DIMID IDWithID:item]];
+            [mArray addObject:MKMIDFromString(item)];
         }
         expels = mArray;
     }
@@ -241,19 +251,21 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     // 4. build message
     NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:expels.count];
     for (DIMID *item in expels) {
-        [mArr addObject:readable_name([DIMID IDWithID:item])];
+        [mArr addObject:readable_name(MKMIDFromString(item))];
     }
     NSString *str = [mArr componentsJoinedByString:@",\n"];
     NSString *format = NSLocalizedString(@"%@ has removed member(s):\n%@.", nil);
     NSString *text = [NSString stringWithFormat:format, readable_name(sender), str];
-    NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
-    [content setObject:text forKey:@"text"];
-    [content setObject:removeds forKey:@"removed"];
+    NSAssert(![gCmd objectForKey:@"text"], @"text should be empty here: %@", gCmd);
+    [gCmd setObject:text forKey:@"text"];
+    [gCmd setObject:removeds forKey:@"removed"];
     
     return YES;
 }
 
-- (BOOL)_processQuitCommand:(DIMMessageContent *)content commander:(const DIMID *)sender polylogue:(DIMPolylogue *)group {
+- (BOOL)_processQuitCommand:(DIMGroupCommand *)gCmd
+                  commander:(const DIMID *)sender
+                  polylogue:(DIMPolylogue *)group {
     
     // 1. check permission
     if ([group isFounder:sender]) {
@@ -274,37 +286,38 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     // 3. build message
     NSString *format = NSLocalizedString(@"%@ has quitted group chat.", nil);
     NSString *text = [NSString stringWithFormat:format, readable_name(sender)];
-    NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
-    [content setObject:text forKey:@"text"];
+    NSAssert(![gCmd objectForKey:@"text"], @"text should be empty here: %@", gCmd);
+    [gCmd setObject:text forKey:@"text"];
     
     return YES;
 }
 
-- (BOOL)processGroupCommand:(DIMMessageContent *)content commander:(const DIMID *)sender {
+- (BOOL)processGroupCommand:(DIMGroupCommand *)gCmd
+                  commander:(const DIMID *)sender {
     BOOL OK = NO;
     
-    NSString *command = content.command;
+    NSString *command = gCmd.command;
     NSLog(@"command: %@", command);
     
-    const DIMID *groupID = [DIMID IDWithID:content.group];
+    const DIMID *groupID = MKMIDFromString(gCmd.group);
     if (groupID.type == MKMNetwork_Polylogue) {
         DIMPolylogue *group = (DIMPolylogue *)DIMGroupWithID(groupID);
         
-        if ([command isEqualToString:DKDGroupCommand_Invite]) {
-            OK = [self _processInviteCommand:content commander:sender polylogue:group];
-        } else if ([command isEqualToString:DKDGroupCommand_Expel]) {
-            OK = [self _processExpelCommand:content commander:sender polylogue:group];
-        } else if ([command isEqualToString:DKDGroupCommand_Quit]) {
-            OK = [self _processQuitCommand:content commander:sender polylogue:group];
+        if ([command isEqualToString:DIMGroupCommand_Invite]) {
+            OK = [self _processInviteCommand:gCmd commander:sender polylogue:group];
+        } else if ([command isEqualToString:DIMGroupCommand_Expel]) {
+            OK = [self _processExpelCommand:gCmd commander:sender polylogue:group];
+        } else if ([command isEqualToString:DIMGroupCommand_Quit]) {
+            OK = [self _processQuitCommand:gCmd commander:sender polylogue:group];
         } else if ([command isEqualToString:@"reset"]) {
-            OK = [self _processResetCommand:content commander:sender polylogue:group];
+            OK = [self _processResetCommand:gCmd commander:sender polylogue:group];
         } else if ([command isEqualToString:@"query"]) {
-            OK = [self _processQueryCommand:content commander:sender polylogue:group];
+            OK = [self _processQueryCommand:gCmd commander:sender polylogue:group];
         } else {
-            NSAssert(false, @"unknown polylogue command: %@", content);
+            NSAssert(false, @"unknown polylogue command: %@", gCmd);
         }
     } else {
-        NSAssert(false, @"unsupport group command: %@", content);
+        NSAssert(false, @"unsupport group command: %@", gCmd);
     }
     
     if (OK) {

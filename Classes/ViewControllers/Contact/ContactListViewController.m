@@ -97,7 +97,7 @@
         }
         
         for (NSString *item in users) {
-            ID = [DIMID IDWithID:item];
+            ID = MKMIDFromString(item);
             if (!MKMNetwork_IsPerson(ID.type) &&
                 !MKMNetwork_IsGroup(ID.type)) {
                 // ignore
@@ -109,10 +109,10 @@
         NSDictionary *results = [notification.userInfo objectForKey:@"results"];
         id value;
         for (NSString *key in results) {
-            ID = [DIMID IDWithID:key];
+            ID = MKMIDFromString(key);
             value = [results objectForKey:key];
             if ([value isKindOfClass:[NSDictionary class]]) {
-                meta = [DIMMeta metaWithMeta:value];
+                meta = MKMMetaFromDictionary(value);
                 [barrack saveMeta:meta forID:ID];
             }
         }

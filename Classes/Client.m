@@ -75,10 +75,8 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)_startServer:(NSDictionary *)station withProvider:(DIMServiceProvider *)sp {
     // save meta for server ID
-    DIMID *ID = [station objectForKey:@"ID"];
-    ID = [DIMID IDWithID:ID];
-    DIMMeta *meta = [station objectForKey:@"meta"];
-    meta = [DIMMeta metaWithMeta:meta];
+    DIMID *ID = MKMIDFromString([station objectForKey:@"ID"]);
+    DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     [[DIMBarrack sharedInstance] saveMeta:meta forID:ID];
     
     // prepare for launch star
@@ -131,10 +129,9 @@ SingletonImplementations(Client, sharedInstance)
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
     DIMServiceProvider *sp = nil;
     {
-        DIMID *ID = [config objectForKey:@"ID"];
-        ID = [DIMID IDWithID:ID];
-        //        DIMID *founder = [config objectForKey:@"founder"];
-        //        founder = [DIMID IDWithID:founder];
+        DIMID *ID = MKMIDFromString([config objectForKey:@"ID"]);
+//        DIMID *founder = [config objectForKey:@"founder"];
+//        founder = [DIMID IDWithID:founder];
         
         sp = [[DIMServiceProvider alloc] initWithID:ID];
     }
@@ -250,7 +247,7 @@ SingletonImplementations(Client, sharedInstance)
     
     // 2. save nickname in profile
     if (nickname.length > 0) {
-        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
+        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];
         [profile setName:nickname];
         if (![facebook saveProfile:profile forID:ID]) {
             NSAssert(false, @"failedo to save profile for new user: %@", ID);
