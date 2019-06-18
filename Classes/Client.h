@@ -12,8 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern const NSString *kNotificationName_MessageUpdated;
-extern const NSString *kNotificationName_UsersUpdated;
+extern NSString * const kNotificationName_MessageUpdated;
+extern NSString * const kNotificationName_UsersUpdated;
 
 @interface Client : DIMTerminal<UNUserNotificationCenterDelegate>
 
