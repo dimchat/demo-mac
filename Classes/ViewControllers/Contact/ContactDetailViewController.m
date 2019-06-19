@@ -63,7 +63,7 @@
     DIMUser *user = client.currentUser;
     
     // send meta & profile first as handshake
-    const DIMMeta *meta = DIMMetaForID(user.ID);
+    DIMMeta *meta = DIMMetaForID(user.ID);
     DIMProfile *profile = DIMProfileForID(user.ID);
     DIMCommand *cmd;
     if (profile) {

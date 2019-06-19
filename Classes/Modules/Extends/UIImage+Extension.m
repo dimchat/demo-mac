@@ -89,11 +89,11 @@
 
 @implementation NSImage (Text)
 
-+ (nullable NSImage *)imageWithText:(const NSString *)text size:(const CGSize)size {
++ (nullable NSImage *)imageWithText:(NSString *)text size:(const CGSize)size {
     return [self imageWithText:text size:size color:nil backgroundColor:nil];
 }
 
-+ (nullable NSImage *)imageWithText:(const NSString *)text
++ (nullable NSImage *)imageWithText:(NSString *)text
                                size:(const CGSize)size
                               color:(nullable NSColor *)textColor
                     backgroundColor:(nullable NSColor *)bgColor {
@@ -139,7 +139,7 @@
 //    return image;
 }
 
-+ (nullable NSImage *)imageWithText:(const NSString *)text
++ (nullable NSImage *)imageWithText:(NSString *)text
                                size:(const CGSize)size
                               color:(nullable NSColor *)textColor
                     backgroundImage:(nullable NSImage *)bgImage {

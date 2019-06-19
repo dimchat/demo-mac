@@ -41,8 +41,8 @@
     NSString *username = [parameters objectForKey:@"username"];
     
     DIMPrivateKey *SK;
-    const DIMMeta *meta;
-    const DIMID *ID;
+    DIMMeta *meta;
+    DIMID *ID;
     
     // 1. generate private key
     SK = [[DIMPrivateKey alloc] init];

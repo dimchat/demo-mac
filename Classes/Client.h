@@ -55,7 +55,7 @@ extern NSString * const kNotificationName_UsersUpdated;
 
 @interface Client (Register)
 
-- (BOOL)saveUser:(const DIMID *)ID meta:(const DIMMeta *)meta privateKey:(const DIMPrivateKey *)SK name:(nullable NSString *)nickname;
+- (BOOL)saveUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname;
 
 @end
 

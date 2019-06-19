@@ -56,7 +56,7 @@ SingletonImplementations(Client, sharedInstance)
     return _userAgent;
 }
 
-- (void)onHandshakeAccepted:(const NSString *)session {
+- (void)onHandshakeAccepted:(NSString *)session {
     [super onHandshakeAccepted:session];
     
     // post device token
@@ -119,7 +119,7 @@ SingletonImplementations(Client, sharedInstance)
         NSString *currentUserID = [[NSUserDefaults standardUserDefaults] objectForKey:@"Current_User_ID"];
         
         if(currentUserID != nil){
-            MKMID *currentID = [[MKMID alloc] initWithString:currentUserID];
+            DIMID *currentID = [[DIMID alloc] initWithString:currentUserID];
             DIMUser *user = [[DIMUser alloc] initWithID:currentID];
             _currentStation.currentUser = user;
         }
@@ -235,7 +235,7 @@ SingletonImplementations(Client, sharedInstance)
 
 @implementation Client (Register)
 
-- (BOOL)saveUser:(const MKMID *)ID meta:(const MKMMeta *)meta privateKey:(const MKMPrivateKey *)SK name:(nullable NSString *)nickname {
+- (BOOL)saveUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname {
     
     Facebook *facebook = [Facebook sharedInstance];
     
