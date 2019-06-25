@@ -352,6 +352,11 @@ SingletonImplementations(Facebook, sharedInstance)
     return NO;
 }
 
+- (BOOL)saveProfile:(MKMProfile *)profile {
+    // TODO: save profile
+    return NO;
+}
+
 - (nullable DIMAccount *)accountWithID:(DIMID *)ID {
     DIMAccount *account = [_immortals accountWithID:ID];
     if (account) {
