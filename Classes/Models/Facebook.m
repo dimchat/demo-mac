@@ -56,75 +56,13 @@ SingletonImplementations(Facebook, sharedInstance)
         _profileTable = [[ProfileTableM alloc] init];
         
         // delegates
-        DIMBarrack *barrack = [DIMBarrack sharedInstance];
+        DIMFacebook *barrack = [DIMFacebook sharedInstance];
         barrack.entityDataSource   = self;
         barrack.userDataSource     = self;
         barrack.groupDataSource    = self;
         barrack.delegate           = self;
-        
-        // scan users
-        NSArray *users = [self scanUserIDList];
-#if DEBUG && 0
-        NSMutableArray *mArray;
-        if (users.count > 0) {
-            mArray = [users mutableCopy];
-        } else {
-            mArray = [[NSMutableArray alloc] initWithCapacity:2];
-        }
-        [mArray addObject:[DIMID IDWithID:MKM_IMMORTAL_HULK_ID]];
-        [mArray addObject:[DIMID IDWithID:MKM_MONKEY_KING_ID]];
-        users = mArray;
-#endif
-        // add users
-        Client *client = [Client sharedInstance];
-        DIMUser *user;
-        for (DIMID *ID in users) {
-            NSLog(@"[client] add user: %@", ID);
-            user = DIMUserWithID(ID);
-            [client addUser:user];
-        }
-        
-        [NSNotificationCenter addObserver:self
-                                 selector:@selector(onProfileUpdated:)
-                                     name:kNotificationName_ProfileUpdated
-                                   object:client];
     }
     return self;
-}
-
-- (void)onProfileUpdated:(NSNotification *)notification {
-    if (![notification.name isEqual:kNotificationName_ProfileUpdated]) {
-        return ;
-    }
-    DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
-    DIMProfile *profile = cmd.profile;
-    NSAssert([profile.ID isEqual:cmd.ID], @"profile command error: %@", cmd);
-    [profile removeObjectForKey:@"lastTime"];
-    
-    // check avatar
-    NSString *avatar = profile.avatar;
-    if (avatar) {
-//        // if old avatar exists, remove it
-//        DIMID *ID = profile.ID;
-//        DIMProfile *old = [self profileForID:ID];
-//        NSString *ext = [old.avatar pathExtension];
-//        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
-//            // Cache directory: "Documents/.mkm/{address}/avatar.png"
-//            NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
-//            NSFileManager *fm = [NSFileManager defaultManager];
-//            if ([fm fileExistsAtPath:path]) {
-//                NSError *error = nil;
-//                if (![fm removeItemAtPath:path error:&error]) {
-//                    NSLog(@"failed to remove old avatar: %@", error);
-//                } else {
-//                    NSLog(@"old avatar removed: %@", path);
-//                }
-//            }
-//        }
-    }
-    
-    // update profile
-    [self saveProfile:profile forID:profile.ID];
 }
 
 - (nullable DIMID *)IDWithAddress:(DIMAddress *)address {
@@ -202,6 +140,16 @@ SingletonImplementations(Facebook, sharedInstance)
     return contacts;
 }
 
+- (BOOL)saveMeta:(DIMMeta *)meta forID:(DIMID *)ID {
+    // TODO: save meta
+    return NO;
+}
+
+- (BOOL)saveProfile:(MKMProfile *)profile {
+    // TODO: save profile
+    return NO;
+}
+
 - (void)setProfile:(DIMProfile *)profile forID:(DIMID *)ID {
     if (profile) {
         NSAssert([profile.ID isEqual:ID], @"profile error: %@, ID = %@", profile, ID);
@@ -224,7 +172,7 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     
     // TODO: load meta from database
-    DIMBarrack *barrack = [DIMBarrack sharedInstance];
+    DIMFacebook *barrack = [DIMFacebook sharedInstance];
     meta = [barrack loadMetaForID:ID];
     
     if (!meta) {
@@ -346,16 +294,6 @@ SingletonImplementations(Facebook, sharedInstance)
 }
 
 #pragma mark - DIMBarrackDelegate
-
-- (BOOL)saveMeta:(DIMMeta *)meta forID:(DIMID *)ID {
-    // TODO: save meta
-    return NO;
-}
-
-- (BOOL)saveProfile:(MKMProfile *)profile {
-    // TODO: save profile
-    return NO;
-}
 
 - (nullable DIMAccount *)accountWithID:(DIMID *)ID {
     DIMAccount *account = [_immortals accountWithID:ID];

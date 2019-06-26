@@ -77,7 +77,9 @@ SingletonImplementations(Client, sharedInstance)
     // save meta for server ID
     DIMID *ID = MKMIDFromString([station objectForKey:@"ID"]);
     DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
-    [[DIMBarrack sharedInstance] saveMeta:meta forID:ID];
+    
+    Facebook *facebook = [Facebook sharedInstance];
+    [facebook saveMeta:meta forID:ID];
     
     // prepare for launch star
     NSMutableDictionary *serverOptions = [[NSMutableDictionary alloc] init];
@@ -110,7 +112,6 @@ SingletonImplementations(Client, sharedInstance)
     
     [MessageProcessor sharedInstance];
     
-    Facebook *facebook = [Facebook sharedInstance];
     [facebook addStation:ID provider:sp];
     
     //Load current user

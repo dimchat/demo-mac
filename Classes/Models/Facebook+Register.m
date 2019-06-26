@@ -100,7 +100,6 @@ static inline NSString *users_filepath(BOOL autoCreate) {
 - (BOOL)saveMeta:(DIMMeta *)meta
       privateKey:(DIMPrivateKey *)SK
            forID:(DIMID *)ID {
-    DIMBarrack *barrack = [DIMBarrack sharedInstance];
     
     NSArray *array = [self scanUserIDList];
     if ([array containsObject:ID]) {
@@ -109,7 +108,8 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
     
     // 1. check & save meta
-    if ([barrack saveMeta:meta forID:ID]) {
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    if ([facebook saveMeta:meta forID:ID]) {
         NSLog(@"meta saved: %@", meta);
     } else {
         NSAssert(false, @"save meta failed: %@, %@", ID, meta);
@@ -242,14 +242,29 @@ static inline NSString *users_filepath(BOOL autoCreate) {
 
 - (nullable DIMProfile *)loadProfileForID:(DIMID *)ID {
     NSString *path = profile_filepath(ID, NO);
-    if (file_exists(path)) {
-        NSLog(@"loaded profile from %@", path);
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        return MKMProfileFromDictionary(dict);
-    } else {
+    if (!file_exists(path)) {
         NSLog(@"profile not found: %@", path);
         return nil;
     }
+    NSLog(@"loaded profile from %@", path);
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
+    DIMProfile *profile = MKMProfileFromDictionary(dict);
+    // try to verify it
+    if (MKMNetwork_IsCommunicator(ID.type)) {
+        // verify with meta.key
+        DIMMeta *meta = [self metaForID:ID];
+        if ([profile verify:meta.key]) {
+            return profile;
+        }
+    } else if (MKMNetwork_IsGroup(ID.type)) {
+        // verify with group owner's meta.key
+        DIMGroup *group = DIMGroupWithID(ID);
+        DIMMeta *meta = [self metaForID:group.owner];
+        if ([profile verify:meta.key]) {
+            return profile;
+        }
+    }
+    return profile;
 }
 
 - (BOOL)saveMembers:(NSArray<DIMID *> *)list

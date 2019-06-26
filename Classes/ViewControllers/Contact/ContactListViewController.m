@@ -59,7 +59,7 @@
     
     NSArray *users = [notification.userInfo objectForKey:@"users"];
     
-    DIMBarrack *barrack = [DIMBarrack sharedInstance];
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
     Client *client = [Client sharedInstance];
     
     DIMID *ID;
@@ -113,7 +113,7 @@
             value = [results objectForKey:key];
             if ([value isKindOfClass:[NSDictionary class]]) {
                 meta = MKMMetaFromDictionary(value);
-                [barrack saveMeta:meta forID:ID];
+                [facebook saveMeta:meta forID:ID];
             }
         }
     }
