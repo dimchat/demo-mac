@@ -248,23 +248,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
     NSLog(@"loaded profile from %@", path);
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-    DIMProfile *profile = MKMProfileFromDictionary(dict);
-    // try to verify it
-    if (MKMNetwork_IsCommunicator(ID.type)) {
-        // verify with meta.key
-        DIMMeta *meta = [self metaForID:ID];
-        if ([profile verify:meta.key]) {
-            return profile;
-        }
-    } else if (MKMNetwork_IsGroup(ID.type)) {
-        // verify with group owner's meta.key
-        DIMGroup *group = DIMGroupWithID(ID);
-        DIMMeta *meta = [self metaForID:group.owner];
-        if ([profile verify:meta.key]) {
-            return profile;
-        }
-    }
-    return profile;
+    return MKMProfileFromDictionary(dict);
 }
 
 - (BOOL)saveMembers:(NSArray<DIMID *> *)list

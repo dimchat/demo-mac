@@ -45,7 +45,7 @@
     DIMID *ID;
     
     // 1. generate private key
-    SK = [[DIMPrivateKey alloc] init];
+    SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
     // 2. generate meta
     meta = MKMMetaGenerate(MKMMetaDefaultVersion, SK, username);
     // 3. generate ID

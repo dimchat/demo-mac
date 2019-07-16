@@ -865,6 +865,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
 					"../../core-objc/Classes/**",
+					"../../dkd-objc/Classes/**",
 					"../../mkm-objc/Classes/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
@@ -889,6 +890,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
 					"../../core-objc/Classes/**",
+					"../../dkd-objc/Classes/**",
 					"../../mkm-objc/Classes/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
