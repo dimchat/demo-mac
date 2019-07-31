@@ -75,7 +75,7 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)_startServer:(NSDictionary *)station withProvider:(DIMServiceProvider *)sp {
     // save meta for server ID
-    DIMID *ID = MKMIDFromString([station objectForKey:@"ID"]);
+    DIMID *ID = DIMIDWithString([station objectForKey:@"ID"]);
     DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     
     Facebook *facebook = [Facebook sharedInstance];
@@ -130,7 +130,7 @@ SingletonImplementations(Client, sharedInstance)
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
     DIMServiceProvider *sp = nil;
     {
-        DIMID *ID = MKMIDFromString([config objectForKey:@"ID"]);
+        DIMID *ID = DIMIDWithString([config objectForKey:@"ID"]);
 //        DIMID *founder = [config objectForKey:@"founder"];
 //        founder = [DIMID IDWithID:founder];
         

@@ -152,7 +152,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     users = [[NSMutableArray alloc] initWithCapacity:[array count]];
     DIMID *ID;
     for (NSString *item in array) {
-        ID = MKMIDFromString(item);
+        ID = DIMIDWithString(item);
         if ([ID isValid]) {
             [users addObject:ID];
         } else {
@@ -168,7 +168,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     if (file_exists(path)) {
         NSArray *array = [NSArray arrayWithContentsOfFile:path];
         for (NSString *item in array) {
-            ID = MKMIDFromString(item);
+            ID = DIMIDWithString(item);
             if (![users containsObject:ID]) {
                 [users addObject:ID];
             }
@@ -269,7 +269,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:list.count];
     DIMID *ID;
     for (NSString *item in list) {
-        ID = MKMIDFromString(item);
+        ID = DIMIDWithString(item);
         [mArray addObject:ID];
     }
     return mArray;

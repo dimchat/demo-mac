@@ -382,9 +382,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         // ...
         return YES;
     } else if (content.type == DIMContentType_History) {
-        DIMID *groupID = MKMIDFromString(content.group);
+        DIMID *groupID = DIMIDWithString(content.group);
         if (groupID) {
-            DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
+            DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
             DIMGroupCommand *cmd = [[DIMGroupCommand alloc] initWithDictionary:content];
             if (![self processGroupCommand:cmd commander:sender]) {
                 NSLog(@"group comment error: %@", content);
@@ -397,7 +397,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     if (MKMNetwork_IsGroup(ID.type)) {
         DIMGroup *group = DIMGroupWithID(ID);
         if (group.founder == nil) {
-            DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
+            DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
             NSAssert(sender != nil, @"sender error: %@", iMsg);
             
             DIMQueryGroupCommand *query;
