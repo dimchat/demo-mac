@@ -120,8 +120,8 @@ SingletonImplementations(Client, sharedInstance)
         NSString *currentUserID = [[NSUserDefaults standardUserDefaults] objectForKey:@"Current_User_ID"];
         
         if(currentUserID != nil){
-            DIMID *currentID = [[DIMID alloc] initWithString:currentUserID];
-            DIMUser *user = [[DIMUser alloc] initWithID:currentID];
+            DIMID *currentID = DIMIDWithString(currentUserID);
+            DIMUser *user = DIMUserWithID(currentID);
             _currentStation.currentUser = user;
         }
     }
@@ -257,7 +257,7 @@ SingletonImplementations(Client, sharedInstance)
     }
     
     // 3. create user for client
-    DIMUser *user = [[DIMUser alloc] initWithID:ID];
+    DIMUser *user = DIMUserWithID(ID);
     user.dataSource = facebook;
     self.currentUser = user;
     
