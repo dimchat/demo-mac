@@ -8,6 +8,7 @@
 
 #import "NSObject+Singleton.h"
 #import "NSDate+Timestamp.h"
+#import "NSDictionary+Binary.h"
 #import "NSNotificationCenter+Extension.h"
 
 #import "MKMImmortals.h"
@@ -17,25 +18,16 @@
 #import "User.h"
 
 #import "Client.h"
+#import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 
 #import "Facebook.h"
 
-@interface DIMBarrack (Hacking)
-
-- (nullable DIMMeta *)loadMetaForID:(DIMID *)ID;
-
-@end
-
 NSString * const kNotificationName_ContactsUpdated = @"ContactsUpdated";
-
-typedef NSMutableDictionary<DIMAddress *, DIMProfile *> ProfileTableM;
 
 @interface Facebook () {
     
     MKMImmortals *_immortals;
-    
-    ProfileTableM *_profileTable;
 }
 
 @end
@@ -53,15 +45,77 @@ SingletonImplementations(Facebook, sharedInstance)
         _contactsTable = [[NSMutableDictionary alloc] init];
         
         // profile cache
-        _profileTable = [[ProfileTableM alloc] init];
+        _profileTable = [[NSMutableDictionary alloc] init];
         
         // delegates
-        DIMFacebook *barrack = [DIMFacebook sharedInstance];
+        DIMBarrack *barrack = [DIMFacebook sharedInstance];
         barrack.entityDataSource   = self;
         barrack.userDataSource     = self;
         barrack.groupDataSource    = self;
+        
+        // scan users
+        NSArray *users = [self scanUserIDList];
+#if DEBUG && 0
+        NSMutableArray *mArray;
+        if (users.count > 0) {
+            mArray = [users mutableCopy];
+        } else {
+            mArray = [[NSMutableArray alloc] initWithCapacity:2];
+        }
+        [mArray addObject:DIMIDWithString(MKM_IMMORTAL_HULK_ID)];
+        [mArray addObject:DIMIDWithString(MKM_MONKEY_KING_ID)];
+        users = mArray;
+#endif
+        // add users
+        Client *client = [Client sharedInstance];
+        DIMLocalUser *user;
+        for (DIMID *ID in users) {
+            NSLog(@"[client] add user: %@", ID);
+            user = DIMUserWithID(ID);
+            [client addUser:user];
+        }
+        
+        [NSNotificationCenter addObserver:self
+                                 selector:@selector(onProfileUpdated:)
+                                     name:kNotificationName_ProfileUpdated
+                                   object:client];
     }
     return self;
+}
+
+- (void)onProfileUpdated:(NSNotification *)notification {
+    if (![notification.name isEqual:kNotificationName_ProfileUpdated]) {
+        return ;
+    }
+    DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
+    DIMProfile *profile = cmd.profile;
+    NSAssert([profile.ID isEqual:cmd.ID], @"profile command error: %@", cmd);
+    [profile removeObjectForKey:@"lastTime"];
+    
+    // check avatar
+    NSString *avatar = profile.avatar;
+    if (avatar) {
+        //        // if old avatar exists, remove it
+        //        DIMID *ID = profile.ID;
+        //        DIMProfile *old = [self profileForID:ID];
+        //        NSString *ext = [old.avatar pathExtension];
+        //        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
+        //            // Cache directory: "Documents/.mkm/{address}/avatar.png"
+        //            NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
+        //            NSFileManager *fm = [NSFileManager defaultManager];
+        //            if ([fm fileExistsAtPath:path]) {
+        //                NSError *error = nil;
+        //                if (![fm removeItemAtPath:path error:&error]) {
+        //                    NSLog(@"failed to remove old avatar: %@", error);
+        //                } else {
+        //                    NSLog(@"old avatar removed: %@", path);
+        //                }
+        //            }
+        //        }
+    }
+    
+    // update profile
+    [self saveProfile:profile];
 }
 
 - (nullable DIMID *)IDWithAddress:(DIMAddress *)address {
@@ -139,26 +193,33 @@ SingletonImplementations(Facebook, sharedInstance)
     return contacts;
 }
 
+#pragma mark - MKMEntityDataSource
+
 - (BOOL)saveMeta:(DIMMeta *)meta forID:(DIMID *)ID {
-    // TODO: save meta
-    return NO;
-}
-
-- (BOOL)saveProfile:(MKMProfile *)profile {
-    // TODO: save profile
-    return NO;
-}
-
-- (void)setProfile:(DIMProfile *)profile forID:(DIMID *)ID {
-    if (profile) {
-        NSAssert([profile.ID isEqual:ID], @"profile error: %@, ID = %@", profile, ID);
-        [_profileTable setObject:[profile copy] forKey:ID.address];
+    if (![meta matchID:ID]) {
+        NSAssert(false, @"meta not match ID: %@, %@", ID, meta);
+        return NO;
+    }
+    NSString *dir = document_directory();
+    dir = [dir stringByAppendingPathComponent:@".mkm"];
+    dir = [dir stringByAppendingPathComponent:ID.address];
+    if (!file_exists(dir)) {
+        // make sure directory exists
+        make_dirs(dir);
+    }
+    NSString *path = [dir stringByAppendingPathComponent:@"meta.plist"];
+    if (file_exists(path)) {
+        // no need to update meta file
+        return YES;
+    }
+    if ([meta writeToBinaryFile:path]) {
+        NSLog(@"meta %@ of %@ has been saved to %@", meta, ID, path);
+        return YES;
     } else {
-        [_profileTable removeObjectForKey:ID.address];
+        NSAssert(false, @"failed to save meta for ID: %@, %@", ID, meta);
+        return NO;
     }
 }
-
-#pragma mark - MKMMetaDataSource
 
 - (nullable DIMMeta *)metaForID:(DIMID *)ID {
     DIMMeta *meta = nil;
@@ -170,7 +231,7 @@ SingletonImplementations(Facebook, sharedInstance)
         }
     }
     
-    // TODO: load meta from database
+    // load meta from database
     DIMFacebook *barrack = [DIMFacebook sharedInstance];
     meta = [barrack loadMetaForID:ID];
     
@@ -184,13 +245,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return meta;
 }
 
-#pragma mark - MKMEntityDataSource
-
-- (nullable DIMMeta *)metaForEntity:(DIMEntity *)entity {
-    return [self metaForID:entity.ID];
-}
-
-- (nullable DIMProfile *)profileForID:(DIMID *)ID {
+- (nullable __kindof DIMProfile *)profileForID:(DIMID *)ID {
     // try from profile cache
     DIMProfile *profile = [_profileTable objectForKey:ID.address];;
     if (profile) {
@@ -229,22 +284,22 @@ SingletonImplementations(Facebook, sharedInstance)
         }
         
         // place an empty profile for cache
-        profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];
+        profile = [[DIMProfile alloc] initWithID:ID];
         break;
     } while (YES);
     
     [profile removeObjectForKey:@"lastTime"];
-    [self setProfile:profile forID:ID];
+    [self cacheProfile:profile];
     return profile;
 }
 
 #pragma mark - MKMUserDataSource
 
-- (DIMPrivateKey *)privateKeyForSignatureOfUser:(DIMID *)user {
+- (nullable DIMPrivateKey *)privateKeyForSignatureOfUser:(DIMID *)user {
     return [DIMPrivateKey loadKeyWithIdentifier:user.address];
 }
 
-- (NSArray<DIMPrivateKey *> *)privateKeysForDecryptionOfUser:(DIMID *)user {
+- (nullable NSArray<DIMPrivateKey *> *)privateKeysForDecryptionOfUser:(DIMID *)user {
     DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.address];
     if (key == nil) {
         return nil;
@@ -252,7 +307,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return [[NSArray alloc] initWithObjects:key, nil];
 }
 
-- (NSArray<DIMID *> *)contactsOfUser:(DIMID *)user {
+- (nullable NSArray<DIMID *> *)contactsOfUser:(DIMID *)user {
     NSArray *contacts = [_contactsTable objectForKey:user.address];
     if (!contacts) {
         contacts = [self reloadContactsWithUser:user];
@@ -265,7 +320,7 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMGroupDataSource
 
-- (DIMID *)founderOfGroup:(DIMID *)grp {
+- (nullable DIMID *)founderOfGroup:(DIMID *)grp {
     DIMMeta *meta = DIMMetaForID(grp);
     NSArray<DIMID *> *members = [self membersOfGroup:grp];
     for (DIMID *member in members) {
@@ -287,84 +342,9 @@ SingletonImplementations(Facebook, sharedInstance)
     return nil;
 }
 
-- (NSArray<DIMID *> *)membersOfGroup:(DIMID *)group {
+- (nullable NSArray<DIMID *> *)membersOfGroup:(DIMID *)group {
     // TODO: cache it
     return [self loadMembersWithGroupID:group];
-}
-
-#pragma mark - DIMBarrackDelegate
-
-- (nullable DIMAccount *)accountWithID:(DIMID *)ID {
-    DIMAccount *account = [_immortals accountWithID:ID];
-    if (account) {
-        account.dataSource = nil;//[DIMBarrack sharedInstance];
-        return account;
-    }
-    
-    NSArray *users = [Client sharedInstance].users;
-    for (account in users) {
-        if ([account.ID isEqual:ID]) {
-            return account;
-        }
-    }
-    
-    // check meta
-    DIMMeta *meta = DIMMetaForID(ID);
-    if (!meta) {
-        NSLog(@"meta not found: %@", ID);
-    }
-    
-    if (MKMNetwork_IsStation(ID.type)) {
-        account = [[DIMServer alloc] initWithID:ID];
-        return account;
-    }
-    
-    account = [[DIMAccount alloc] initWithID:ID];
-    return account;
-}
-
-- (nullable DIMUser *)userWithID:(DIMID *)ID {
-    DIMUser *user = [_immortals userWithID:ID];
-    if (user) {
-        user.dataSource = nil;//[DIMBarrack sharedInstance];
-        return user;
-    }
-    
-    NSArray *users = [Client sharedInstance].users;
-    for (user in users) {
-        if ([user.ID isEqual:ID]) {
-            return user;
-        }
-    }
-    
-    // check meta
-    DIMMeta *meta = DIMMetaForID(ID);
-    if (!meta) {
-        NSLog(@"meta not found: %@", ID);
-    }
-    
-    user = [[DIMUser alloc] initWithID:ID];
-    return user;
-}
-
-- (nullable DIMGroup *)groupWithID:(DIMID *)ID {
-    DIMGroup *group = nil;
-    
-    // check meta
-    DIMMeta *meta = DIMMetaForID(ID);
-    if (!meta) {
-        NSLog(@"meta not found: %@", ID);
-    }
-    
-    // create it
-    if (ID.type == MKMNetwork_Polylogue) {
-        group = [[DIMPolylogue alloc] initWithID:ID];
-    } else if (ID.type == MKMNetwork_Chatroom) {
-        group = [[DIMChatroom alloc] initWithID:ID];
-    } else {
-        NSAssert(false, @"group error: %@", ID);
-    }
-    return group;
 }
 
 @end

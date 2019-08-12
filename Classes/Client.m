@@ -11,6 +11,7 @@
 #import "NSData+Extension.h"
 
 #import "Facebook+Register.h"
+#import "Facebook+Profile.h"
 #import "MessageProcessor.h"
 
 #import "Client.h"
@@ -121,7 +122,7 @@ SingletonImplementations(Client, sharedInstance)
         
         if(currentUserID != nil){
             DIMID *currentID = DIMIDWithString(currentUserID);
-            DIMUser *user = DIMUserWithID(currentID);
+            DIMLocalUser *user = DIMUserWithID(currentID);
             _currentStation.currentUser = user;
         }
     }
@@ -250,14 +251,14 @@ SingletonImplementations(Client, sharedInstance)
     if (nickname.length > 0) {
         DIMProfile *profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];
         [profile setName:nickname];
-        if (![facebook saveProfile:profile forID:ID]) {
+        if (![facebook saveProfile:profile]) {
             NSAssert(false, @"failedo to save profile for new user: %@", ID);
             return NO;
         }
     }
     
     // 3. create user for client
-    DIMUser *user = DIMUserWithID(ID);
+    DIMLocalUser *user = DIMUserWithID(ID);
     user.dataSource = facebook;
     self.currentUser = user;
     

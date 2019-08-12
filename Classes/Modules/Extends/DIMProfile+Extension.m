@@ -11,6 +11,7 @@
 
 #import "Client.h"
 #import "Facebook+Register.h"
+#import "Facebook+Profile.h"
 
 #import "DIMProfile+Extension.h"
 

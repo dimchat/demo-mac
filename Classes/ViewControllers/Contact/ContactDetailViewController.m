@@ -28,19 +28,19 @@
     [self updateUI];
 }
 
--(void)setAccount:(DIMAccount *)account{
+-(void)setContact:(DIMUser *)contact{
     
-    _account = account;
+    _contact = contact;
     [self updateUI];
 }
 
 -(void)updateUI{
     
-    if(_account == nil){
+    if(_contact == nil){
         return;
     }
     
-    DIMProfile *profile = DIMProfileForID(_account.ID);
+    DIMProfile *profile = DIMProfileForID(_contact.ID);
     
     // avatar
     CGRect frame = self.avatarImageView.frame;
@@ -51,16 +51,16 @@
     [self.avatarImageView setImage:image];
     
     // name
-    self.nicknameLabel.stringValue = account_title(_account);
+    self.nicknameLabel.stringValue = user_title(_contact);
     
     // desc
-    self.numberLabel.stringValue = [NSString stringWithFormat:@"%@", _account.ID];
+    self.numberLabel.stringValue = [NSString stringWithFormat:@"%@", _contact.ID];
 }
 
 - (IBAction)didPressAddFriendButton:(id)sender {
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     
     // send meta & profile first as handshake
     DIMMeta *meta = DIMMetaForID(user.ID);
@@ -74,12 +74,12 @@
         cmd = [[DIMMetaCommand alloc] initWithID:user.ID
                                             meta:meta];
     }
-    [client sendContent:cmd to:_account.ID];
+    [client sendContent:cmd to:_contact.ID];
     
     // add to contacts
     Facebook *facebook = [Facebook sharedInstance];
-//    [facebook user:user addContact:_account.ID];
-    NSLog(@"contact %@ added to user %@", _account, user);
+//    [facebook user:user addContact:_contact.ID];
+    NSLog(@"contact %@ added to user %@", _contact, user);
 }
 
 

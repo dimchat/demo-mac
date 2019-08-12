@@ -33,7 +33,7 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     
 //    DIMID *selectedID = [_users objectAtIndex:self.tableView.selectedRow];
-//    DIMAccount *selectedAccount = DIMAccountWithID(selectedID);
+//    DIMUser *selectedAccount = DIMUserWithID(selectedID);
 //
 //    if(self.delegate != nil){
 //        [self.delegate listViewController:self didSelectObject:cell];

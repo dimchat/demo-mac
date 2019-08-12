@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ContactDetailViewController : NSViewController
 
-@property(nonatomic, strong) DIMAccount *account;
+@property(nonatomic, strong) DIMUser *contact;
 
 @end
 

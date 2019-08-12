@@ -34,7 +34,7 @@
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     
     if(!user){
         self.loginController = [[LoginWindowController alloc] initWithWindowNibName:@"LoginWindowController"];
@@ -101,7 +101,7 @@
             self.contactDetailViewController = [[ContactDetailViewController alloc] initWithNibName:@"ContactDetailViewController" bundle:nil];
         }
         
-        self.contactDetailViewController.account = (DIMAccount *)selectedObject;
+        self.contactDetailViewController.contact = (DIMUser *)selectedObject;
         [self addViewToDetailView:self.contactDetailViewController.view];
     }
 }

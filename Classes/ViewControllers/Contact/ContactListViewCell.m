@@ -28,10 +28,10 @@
     return self;
 }
 
--(void)setAccount:(DIMAccount *)account{
+-(void)setAccount:(DIMUser *)contact{
     
-    _account = account;
-    DIMProfile *profile = DIMProfileForID(account.ID);
+    _contact = contact;
+    DIMProfile *profile = DIMProfileForID(contact.ID);
     
     // avatar
     CGRect frame = self.avatarView.frame;
@@ -42,10 +42,10 @@
     [self.avatarView setImage:image];
     
     // name
-    self.nameLabel.stringValue = account_title(account);
+    self.nameLabel.stringValue = user_title(contact);
     
     // desc
-    self.lastMessageLabel.stringValue = (NSString *)account.ID;
+    self.lastMessageLabel.stringValue = (NSString *)contact.ID;
 }
 
 @end

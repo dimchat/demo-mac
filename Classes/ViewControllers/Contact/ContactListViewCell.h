@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSImageView *avatarView;
 @property(nonatomic, strong) NSTextField *nameLabel;
 @property(nonatomic, strong) NSTextField *lastMessageLabel;
-@property(nonatomic, strong) DIMAccount *account;
+@property(nonatomic, strong) DIMUser *contact;
 
 @end
 

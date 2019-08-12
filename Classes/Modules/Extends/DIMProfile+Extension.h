@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DIMProfile (Extension)
 
-// account.avatar
+// user.avatar
 - (NSImage *)avatarImageWithSize:(const CGSize)size;
 
 // group.logo

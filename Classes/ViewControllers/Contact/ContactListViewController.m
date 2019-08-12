@@ -132,7 +132,7 @@
     NSRect r = NSMakeRect(0.0, 0.0, self.view.bounds.size.width, 40.0);
     ContactListViewCell *cell = [[ContactListViewCell alloc] initWithFrame:r];
     DIMID *ID = [_users objectAtIndex:row];
-    cell.account = DIMAccountWithID(ID);
+    cell.contact = DIMUserWithID(ID);
     return cell;
 }
 
@@ -144,7 +144,7 @@
     
     NSLog(@"Select row %@", notification);
     DIMID *selectedID = [_users objectAtIndex:self.tableView.selectedRow];
-    DIMAccount *selectedAccount = DIMAccountWithID(selectedID);
+    DIMUser *selectedAccount = DIMUserWithID(selectedID);
     if(self.delegate != nil){
         [self.delegate listViewController:self didSelectObject:selectedAccount];
     }
