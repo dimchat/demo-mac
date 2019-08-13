@@ -77,8 +77,7 @@
     [client sendContent:cmd to:_contact.ID];
     
     // add to contacts
-    Facebook *facebook = [Facebook sharedInstance];
-//    [facebook user:user addContact:_contact.ID];
+    [[DIMFacebook sharedInstance] user:user addContact:_contact.ID];
     NSLog(@"contact %@ added to user %@", _contact, user);
 }
 

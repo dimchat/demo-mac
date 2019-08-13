@@ -60,11 +60,11 @@
     NSArray *users = [notification.userInfo objectForKey:@"users"];
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    Client *client = [Client sharedInstance];
+//    Client *client = [Client sharedInstance];
     
     DIMID *ID;
     DIMMeta *meta;
-    DIMPublicKey *PK;
+//    DIMPublicKey *PK;
     
 //    if ([notification.name isEqual:kNotificationName_OnlineUsersUpdated]) {
 //        // online users

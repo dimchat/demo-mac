@@ -10,30 +10,6 @@
 
 #import "Facebook+Register.h"
 
-static inline NSString *base_directory(DIMID *ID) {
-    // base directory ("Documents/.mkm/{address}")
-    NSString *dir = document_directory();
-    dir = [dir stringByAppendingPathComponent:@".mkm"];
-    return [dir stringByAppendingPathComponent:(NSString *)ID.address];
-}
-
-/**
- Get group members filepath in Documents Directory
- 
- @param groupID - group ID
- @return "Documents/.mkm/{address}/members.plist"
- */
-static inline NSString *members_filepath(DIMID *groupID, BOOL autoCreate) {
-    // base directory ("Documents/.mkm/{address}")
-    NSString *dir = base_directory(groupID);
-    // check base directory exists
-    if (autoCreate && !file_exists(dir)) {
-        // make sure directory exists
-        make_dirs(dir);
-    }
-    return [dir stringByAppendingPathComponent:@"members.plist"];
-}
-
 /**
  Get group members filepath in Documents Directory
  
@@ -158,30 +134,6 @@ static inline NSString *users_filepath(BOOL autoCreate) {
         NSLog(@"user not exists: %@", user);
         return NO;
     }
-}
-
-- (BOOL)saveMembers:(NSArray<DIMID *> *)list
-        withGroupID:(DIMID *)grp {
-    NSString *path = members_filepath(grp, YES);
-    if ([list writeToFile:path atomically:YES]) {
-        NSLog(@"members %@ of %@ saved to %@", list, grp, path);
-        return YES;
-    } else {
-        NSAssert(false, @"failed to save members for group: %@, %@", grp, list);
-        return NO;
-    }
-}
-
-- (NSArray<DIMID *> *)loadMembersWithGroupID:(DIMID *)grp {
-    NSString *path = members_filepath(grp, NO);
-    NSArray *list = [NSArray arrayWithContentsOfFile:path];
-    NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:list.count];
-    DIMID *ID;
-    for (NSString *item in list) {
-        ID = DIMIDWithString(item);
-        [mArray addObject:ID];
-    }
-    return mArray;
 }
 
 @end

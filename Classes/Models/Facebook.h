@@ -18,9 +18,6 @@ typedef NSArray<DIMID *> ContactTable;
                                 DIMUserDataSource,
                                 DIMGroupDataSource> {
     
-    NSMutableDictionary<DIMAddress *, NSMutableArray<DIMID *> *> *_contactsTable;
-
-    NSMutableDictionary<DIMAddress *, DIMProfile *> *_profileTable;
 }
 
 + (instancetype)sharedInstance;
@@ -28,8 +25,6 @@ typedef NSArray<DIMID *> ContactTable;
 - (nullable DIMID *)IDWithAddress:(DIMAddress *)address;
 
 - (void)addStation:(DIMID *)stationID provider:(DIMServiceProvider *)sp;
-
-- (ContactTable *)reloadContactsWithUser:(DIMID *)user;
 
 @end
 
