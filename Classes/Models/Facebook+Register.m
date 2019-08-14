@@ -41,7 +41,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
     
     // 1. check & save meta
-    if ([self saveMeta:meta forID:ID]) {
+    if ([[DIMFacebook sharedInstance] saveMeta:meta forID:ID]) {
         NSLog(@"meta saved: %@", meta);
     } else {
         NSAssert(false, @"save meta failed: %@, %@", ID, meta);

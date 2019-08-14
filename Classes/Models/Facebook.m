@@ -42,7 +42,7 @@ SingletonImplementations(Facebook, sharedInstance)
         _immortals = [[MKMImmortals alloc] init];
         
         // delegates
-        DIMBarrack *barrack = [DIMFacebook sharedInstance];
+        DIMFacebook *barrack = [DIMFacebook sharedInstance];
         barrack.entityDataSource   = self;
         barrack.userDataSource     = self;
         barrack.groupDataSource    = self;

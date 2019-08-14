@@ -79,8 +79,7 @@ SingletonImplementations(Client, sharedInstance)
     DIMID *ID = DIMIDWithString([station objectForKey:@"ID"]);
     DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     
-    Facebook *facebook = [Facebook sharedInstance];
-    [facebook saveMeta:meta forID:ID];
+    [[DIMFacebook sharedInstance] saveMeta:meta forID:ID];
     
     // prepare for launch star
     NSMutableDictionary *serverOptions = [[NSMutableDictionary alloc] init];
@@ -113,7 +112,7 @@ SingletonImplementations(Client, sharedInstance)
     
     [MessageProcessor sharedInstance];
     
-    [facebook addStation:ID provider:sp];
+    [[Facebook sharedInstance] addStation:ID provider:sp];
     
     //Load current user
     if(_currentStation != nil){
@@ -239,14 +238,18 @@ SingletonImplementations(Client, sharedInstance)
 
 - (BOOL)saveUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname {
     
-    Facebook *facebook = [Facebook sharedInstance];
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
     // 1. save meta & private key
-    if (![facebook saveMeta:meta privateKey:SK forID:ID]) {
-        NSAssert(false, @"failed to save meta & private key for new user: %@", ID);
+    if (![facebook savePrivateKey:SK forID:ID]) {
+        NSAssert(false, @"failed to save private key for new user: %@", ID);
         return NO;
     }
-    
+    if (![facebook saveMeta:meta forID:ID]) {
+        NSAssert(false, @"failed to save meta for new user: %@", ID);
+        return NO;
+    }
+
     // 2. save nickname in profile
     if (nickname.length > 0) {
         DIMProfile *profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];

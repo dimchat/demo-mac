@@ -84,7 +84,7 @@ BOOL check_username(NSString *username) {
             [profile setObject:ID forKey:@"ID"];
         }
         profile = MKMProfileFromDictionary(profile);
-        [[Facebook sharedInstance] saveProfile:profile];
+        [[DIMFacebook sharedInstance] saveProfile:profile];
     }
     
     return user;
