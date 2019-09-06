@@ -90,7 +90,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         NSLog(@"reset group members: %@, from %@ to %@", group.ID, members, newMembers);
         
         // 3. save new members list
-        if (![[DIMFacebook sharedInstance] saveMembers:newMembers forGroup:group]) {
+        if (![[DIMFacebook sharedInstance] saveMembers:newMembers group:group.ID]) {
             return NO;
         }
     }
@@ -127,7 +127,10 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
                     polylogue:(DIMPolylogue *)group {
     
     // 0. check permission
-    if (![group isFounder:sender] && ![group existsMember:sender]) {
+    if (group.founder == nil && group.members.count == 0) {
+        // FIXME: group profile lost?
+        // FIXME: how to avoid strangers impersonating group members?
+    } else if (![group existsMember:sender]) {
         NSAssert(false, @"%@ is not a member of polylogue: %@, cannot invite.", sender, group);
         return NO;
     }
@@ -176,14 +179,14 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         NSLog(@"invite members: %@ to group: %@", addeds, group.ID);
         
         // 3. save new members list
-        if (![[DIMFacebook sharedInstance] saveMembers:newMembers forGroup:group]) {
+        if (![[DIMFacebook sharedInstance] saveMembers:newMembers group:group.ID]) {
             return NO;
         }
     }
     
     // 4. build message
     NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:invites.count];
-    for (DIMID *item in invites) {
+    for (DIMID *item in addeds) {
         [mArr addObject:readable_name(DIMIDWithString(item))];
     }
     NSString *str = [mArr componentsJoinedByString:@",\n"];
@@ -239,7 +242,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         NSLog(@"expel members: %@ from group: %@", removeds, group.ID);
         
         // 3. save new members list
-        if (![[DIMFacebook sharedInstance] saveMembers:newMembers forGroup:group]) {
+        if (![[DIMFacebook sharedInstance] saveMembers:newMembers group:group.ID]) {
             return NO;
         }
     }

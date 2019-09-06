@@ -21,7 +21,7 @@
 /**
  Get full filepath to Documents Directory
  
- @param ID - account ID
+ @param ID - user ID
  @param filename - "messages.plist"
  @return "Documents/.dim/{address}/messages.plist"
  */
@@ -59,7 +59,6 @@ static inline NSString *full_filepath(DIMID *ID, NSString *filename) {
 //}
 
 static inline BOOL save_message(NSArray *messages, DIMID *ID) {
-    messages = [messages copy];
     NSString *path = full_filepath(ID, @"messages.plist");
     NSLog(@"save path: %@", path);
     return [messages writeToFile:path atomically:YES];
@@ -101,10 +100,10 @@ static inline NSMutableDictionary *scan_messages(void) {
         }
         addr = [path substringToIndex:(path.length - 15)];
         address = MKMAddressFromString(addr);
-//        if (MKMNetwork_IsStation(address.network)) {
-//            // ignore station history
-//            continue;
-//        }
+        //        if (MKMNetwork_IsStation(address.network)) {
+        //            // ignore station history
+        //            continue;
+        //        }
         
         path = [dir stringByAppendingPathComponent:path];
         array = [NSMutableArray arrayWithContentsOfFile:path];
@@ -128,8 +127,7 @@ static inline NSMutableArray *time_for_messages(NSArray *messages) {
     NSDate *date;
     NSDate *lastDate = nil;
     NSString *text;
-    NSArray *list = [messages copy];
-    for (NSDictionary *msg in list) {
+    for (NSDictionary *msg in messages) {
         timestamp = [msg objectForKey:@"time"];
         date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.doubleValue];
         if (lastDate == nil || [date timeIntervalSinceDate:lastDate] > 300) {
@@ -224,17 +222,17 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     }
     [list addObject:iMsg];
     
-    // Burn After Reading
-    NSMutableArray *timeList = [_timesTable objectForKey:ID];
-    while (list.count > MAX_MESSAGES_SAVED_COUNT) {
-        [list removeObjectAtIndex:0];
-        if (timeList.count > 0) {
-            [timeList removeObjectAtIndex:0];
-        } else {
-            // FIXME: sometimes this would happen
-            //NSAssert(false, @"time list should not be empty here");
-        }
-    }
+    //    // Burn After Reading
+    //    NSMutableArray *timeList = [_timesTable objectForKey:ID];
+    //    while (list.count > MAX_MESSAGES_SAVED_COUNT) {
+    //        [list removeObjectAtIndex:0];
+    //        if (timeList.count > 0) {
+    //            [timeList removeObjectAtIndex:0];
+    //        } else {
+    //            // FIXME: sometimes this would happen
+    //            //NSAssert(false, @"time list should not be empty here");
+    //        }
+    //    }
     
     if (save_message(list, ID)) {
         NSLog(@"new message for %@ saved", ID);
@@ -286,7 +284,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     if (removed) {
         [_chatHistory removeObjectForKey:ID];
         [_chatList removeObject:ID];
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
                                             object:self
                                           userInfo:@{@"ID": ID}];
     }
@@ -304,7 +302,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     BOOL cleared = clear_messages(ID);
     if (cleared) {
         [[_chatHistory objectForKey:ID] removeAllObjects];
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
                                             object:self
                                           userInfo:@{@"ID": ID}];
     }
@@ -371,11 +369,12 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 // save the new message to local storage
 - (BOOL)conversation:(DIMConversation *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
     DIMID *ID = chatBox.ID;
+    NSString *command = nil;
     
     // system command
     DIMContent *content = iMsg.content;
     if (content.type == DKDContentType_Command) {
-        NSString *command = [(DIMCommand *)content command];
+        command = [(DIMCommand *)content command];
         NSLog(@"command: %@", command);
         
         // TODO: parse & execute system command
@@ -384,8 +383,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     } else if (content.type == DKDContentType_History) {
         DIMID *groupID = DIMIDWithString(content.group);
         if (groupID) {
+            DIMGroupCommand *cmd = (DIMGroupCommand *)content;
+            command = cmd.command;
             DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
-            DIMGroupCommand *cmd = [[DIMGroupCommand alloc] initWithDictionary:content];
             if (![self processGroupCommand:cmd commander:sender]) {
                 NSLog(@"group comment error: %@", content);
                 return NO;
@@ -396,7 +396,13 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     // check whether the group members info is updated
     if (MKMNetwork_IsGroup(ID.type)) {
         DIMGroup *group = DIMGroupWithID(ID);
-        if (group.founder == nil) {
+        // if the group info not found, and this is not an 'invite' command
+        //     query group info from the sender
+        BOOL needsUpdate = group.founder == nil;
+        if ([command isEqualToString:DIMGroupCommand_Invite]) {
+            needsUpdate = NO;
+        }
+        if (needsUpdate) {
             DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
             NSAssert(sender != nil, @"sender error: %@", iMsg);
             

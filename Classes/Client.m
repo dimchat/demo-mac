@@ -9,14 +9,16 @@
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
 #import "NSData+Extension.h"
+#import "NSNotificationCenter+Extension.h"
 
-#import "Facebook+Register.h"
 #import "Facebook+Profile.h"
+#import "Facebook+Register.h"
 #import "MessageProcessor.h"
 
 #import "Client.h"
 
 NSString * const kNotificationName_MessageUpdated = @"MessageUpdated";
+NSString * const kNotificationName_MessageCleaned = @"MessageCleaned";
 NSString * const kNotificationName_UsersUpdated = @"UsersUpdated";
 
 @interface Client () {
@@ -79,6 +81,7 @@ SingletonImplementations(Client, sharedInstance)
     DIMID *ID = DIMIDWithString([station objectForKey:@"ID"]);
     DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     
+    Facebook *facebook = [Facebook sharedInstance];
     [[DIMFacebook sharedInstance] saveMeta:meta forID:ID];
     
     // prepare for launch star
@@ -112,27 +115,78 @@ SingletonImplementations(Client, sharedInstance)
     
     [MessageProcessor sharedInstance];
     
-    [[Facebook sharedInstance] addStation:ID provider:sp];
+    [facebook addStation:ID provider:sp];
     
-    //Load current user
-    if(_currentStation != nil){
-        
-        NSString *currentUserID = [[NSUserDefaults standardUserDefaults] objectForKey:@"Current_User_ID"];
-        
-        if(currentUserID != nil){
-            DIMID *currentID = DIMIDWithString(currentUserID);
-            DIMLocalUser *user = DIMUserWithID(currentID);
-            _currentStation.currentUser = user;
-        }
+    // scan users
+    NSArray *users = [facebook scanUserIDList];
+#if DEBUG && 0
+    NSMutableArray *mArray;
+    if (users.count > 0) {
+        mArray = [users mutableCopy];
+    } else {
+        mArray = [[NSMutableArray alloc] initWithCapacity:2];
     }
+    [mArray addObject:[DIMID IDWithID:MKM_IMMORTAL_HULK_ID]];
+    [mArray addObject:[DIMID IDWithID:MKM_MONKEY_KING_ID]];
+    users = mArray;
+#endif
+    // add users
+    DIMLocalUser *user;
+    for (DIMID *ID in users) {
+        NSLog(@"[client] add user: %@", ID);
+        user = DIMUserWithID(ID);
+        [self addUser:user];
+    }
+    
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(onProfileUpdated:)
+                                 name:kNotificationName_ProfileUpdated
+                               object:self];
+    
+}
+
+- (void)onProfileUpdated:(NSNotification *)notification {
+    if (![notification.name isEqual:kNotificationName_ProfileUpdated]) {
+        return ;
+    }
+    DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
+    DIMProfile *profile = cmd.profile;
+    NSAssert([profile.ID isEqual:cmd.ID], @"profile command error: %@", cmd);
+    [profile removeObjectForKey:@"lastTime"];
+    
+    // check avatar
+    NSString *avatar = profile.avatar;
+    if (avatar) {
+        //        // if old avatar exists, remove it
+        //        DIMID *ID = profile.ID;
+        //        DIMProfile *old = [self profileForID:ID];
+        //        NSString *ext = [old.avatar pathExtension];
+        //        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
+        //            // Cache directory: "Documents/.mkm/{address}/avatar.png"
+        //            NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
+        //            NSFileManager *fm = [NSFileManager defaultManager];
+        //            if ([fm fileExistsAtPath:path]) {
+        //                NSError *error = nil;
+        //                if (![fm removeItemAtPath:path error:&error]) {
+        //                    NSLog(@"failed to remove old avatar: %@", error);
+        //                } else {
+        //                    NSLog(@"old avatar removed: %@", path);
+        //                }
+        //            }
+        //        }
+    }
+    
+    // update profile
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    [facebook saveProfile:profile];
 }
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
     DIMServiceProvider *sp = nil;
     {
         DIMID *ID = DIMIDWithString([config objectForKey:@"ID"]);
-//        DIMID *founder = [config objectForKey:@"founder"];
-//        founder = [DIMID IDWithID:founder];
+        //        DIMID *founder = [config objectForKey:@"founder"];
+        //        founder = DIMIDWithString(founder);
         
         sp = [[DIMServiceProvider alloc] initWithID:ID];
     }
@@ -225,11 +279,12 @@ SingletonImplementations(Client, sharedInstance)
 }
 
 - (NSString *)termsAPI {
-    return @"https://dim.chat/sechat/terms.html";
+    return @"https://wallet.dim.chat/dimchat/sechat/privacy.html";
 }
 
 - (NSString *)aboutAPI {
-    return @"https://dim.chat/sechat";
+    //return @"https://dim.chat/sechat";
+    return @"https://sechat.dim.chat/support";
 }
 
 @end
@@ -249,11 +304,14 @@ SingletonImplementations(Client, sharedInstance)
         NSAssert(false, @"failed to save meta for new user: %@", ID);
         return NO;
     }
-
+    
     // 2. save nickname in profile
     if (nickname.length > 0) {
-        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];
+        
+        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
+        
         [profile setName:nickname];
+        [profile sign:SK];
         if (![facebook saveProfile:profile]) {
             NSAssert(false, @"failedo to save profile for new user: %@", ID);
             return NO;
@@ -261,11 +319,40 @@ SingletonImplementations(Client, sharedInstance)
     }
     
     // 3. create user for client
-    DIMLocalUser *user = DIMUserWithID(ID);
+    DIMLocalUser *user = [[DIMLocalUser alloc] initWithID:ID];
     user.dataSource = facebook;
     self.currentUser = user;
     
-    return YES;
+    Facebook *book = [Facebook sharedInstance];
+    BOOL saved = [book saveUserList:self.users withCurrentUser:user];
+    NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
+    return saved;
+}
+
+- (BOOL)importUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname {
+    
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    
+    // 1. save meta & private key
+    if (![facebook savePrivateKey:SK forID:ID]) {
+        NSAssert(false, @"failed to save private key for new user: %@", ID);
+        return NO;
+    }
+    if (![facebook saveMeta:meta forID:ID]) {
+        NSAssert(false, @"failed to save meta for new user: %@", ID);
+        return NO;
+    }
+    
+    MKMLocalUser *user = DIMUserWithID(ID);
+    [self login:user];
+    
+    //    DIMProfile *profile = [facebook profileForID:ID];
+    
+    Facebook *book = [Facebook sharedInstance];
+    BOOL saved = [book saveUserList:self.users withCurrentUser:user];
+    NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
+    
+    return saved;
 }
 
 @end

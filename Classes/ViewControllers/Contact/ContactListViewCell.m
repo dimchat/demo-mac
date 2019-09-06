@@ -42,7 +42,7 @@
     [self.avatarView setImage:image];
     
     // name
-    self.nameLabel.stringValue = user_title(contact);
+    self.nameLabel.stringValue = user_title(contact.ID);
     
     // desc
     self.lastMessageLabel.stringValue = (NSString *)contact.ID;

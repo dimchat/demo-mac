@@ -51,7 +51,7 @@
     [self.avatarImageView setImage:image];
     
     // name
-    self.nicknameLabel.stringValue = user_title(_contact);
+    self.nicknameLabel.stringValue = user_title(_contact.ID);
     
     // desc
     self.numberLabel.stringValue = [NSString stringWithFormat:@"%@", _contact.ID];

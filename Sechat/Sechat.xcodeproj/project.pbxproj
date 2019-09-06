@@ -454,6 +454,8 @@
 		E9BBC3DB2242B6F600E6ACDA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E9BBC3E22242B6F600E6ACDA /* User.h */,
+				E9BBC3DE2242B6F600E6ACDA /* User.m */,
 				E9BBC3DF2242B6F600E6ACDA /* Facebook.h */,
 				E9BBC3E52242B6F600E6ACDA /* Facebook.m */,
 				E9EAF9CF230180D100566755 /* Facebook+Profile.h */,
@@ -464,8 +466,6 @@
 				E9BBC3E12242B6F600E6ACDA /* MessageProcessor.m */,
 				E9BBC3E42242B6F600E6ACDA /* MessageProcessor+GroupCommand.h */,
 				E9BBC3E02242B6F600E6ACDA /* MessageProcessor+GroupCommand.m */,
-				E9BBC3E22242B6F600E6ACDA /* User.h */,
-				E9BBC3DE2242B6F600E6ACDA /* User.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";

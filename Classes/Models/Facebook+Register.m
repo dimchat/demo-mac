@@ -41,7 +41,8 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
     
     // 1. check & save meta
-    if ([[DIMFacebook sharedInstance] saveMeta:meta forID:ID]) {
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    if ([facebook saveMeta:meta forID:ID]) {
         NSLog(@"meta saved: %@", meta);
     } else {
         NSAssert(false, @"save meta failed: %@, %@", ID, meta);
@@ -111,7 +112,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
         }
     }
     // save to ("Documents/.dim/users.plist")
-    NSString *path = users_filepath(NO);
+    NSString *path = users_filepath(YES);
     NSLog(@"saving %ld user(s) to %@", users.count, path);
     return [users writeToFile:path atomically:YES];
 }

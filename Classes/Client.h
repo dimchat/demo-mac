@@ -13,6 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const kNotificationName_MessageUpdated;
+extern NSString * const kNotificationName_MessageCleaned;
 extern NSString * const kNotificationName_UsersUpdated;
 
 @interface Client : DIMTerminal<UNUserNotificationCenterDelegate>
@@ -56,6 +57,7 @@ extern NSString * const kNotificationName_UsersUpdated;
 @interface Client (Register)
 
 - (BOOL)saveUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname;
+- (BOOL)importUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname;
 
 @end
 
