@@ -208,7 +208,6 @@
 		E9BBC3E12242B6F600E6ACDA /* MessageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageProcessor.m; sourceTree = "<group>"; };
 		E9BBC3E22242B6F600E6ACDA /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		E9BBC3E32242B6F600E6ACDA /* Facebook+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
-		E9BBC3E42242B6F600E6ACDA /* MessageProcessor+GroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MessageProcessor+GroupCommand.h"; sourceTree = "<group>"; };
 		E9BBC3E52242B6F600E6ACDA /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facebook.m; sourceTree = "<group>"; };
 		E9BBC4342242BC5800E6ACDA /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		E9BBC4352242BC5800E6ACDA /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
@@ -464,7 +463,6 @@
 				E9BBC3DD2242B6F600E6ACDA /* Facebook+Register.m */,
 				E9BBC3DC2242B6F600E6ACDA /* MessageProcessor.h */,
 				E9BBC3E12242B6F600E6ACDA /* MessageProcessor.m */,
-				E9BBC3E42242B6F600E6ACDA /* MessageProcessor+GroupCommand.h */,
 				E9BBC3E02242B6F600E6ACDA /* MessageProcessor+GroupCommand.m */,
 			);
 			path = Models;

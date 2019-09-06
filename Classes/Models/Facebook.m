@@ -46,7 +46,7 @@ SingletonImplementations(Facebook, sharedInstance)
         barrack.database   = self;
         
         // scan users
-        NSArray *users = [self scanUserIDList];
+        NSArray *users = [self allUsers];
 #if DEBUG && 0
         NSMutableArray *mArray;
         if (users.count > 0) {
@@ -87,50 +87,27 @@ SingletonImplementations(Facebook, sharedInstance)
     // check avatar
     NSString *avatar = profile.avatar;
     if (avatar) {
-//        // if old avatar exists, remove it
-//        DIMID *ID = profile.ID;
-//        DIMProfile *old = [self profileForID:ID];
-//        NSString *ext = [old.avatar pathExtension];
-//        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
-//            // Cache directory: "Documents/.mkm/{address}/avatar.png"
-//        NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
-//            NSFileManager *fm = [NSFileManager defaultManager];
-//            if ([fm fileExistsAtPath:path]) {
-//                NSError *error = nil;
-//                if (![fm removeItemAtPath:path error:&error]) {
-//                    NSLog(@"failed to remove old avatar: %@", error);
-//                } else {
-//                    NSLog(@"old avatar removed: %@", path);
-//                }
-//            }
-//        }
+        // if old avatar exists, remove it
+        DIMID *ID = profile.ID;
+        DIMProfile *old = [self profileForID:ID];
+        NSString *ext = [old.avatar pathExtension];
+        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
+            // Cache directory: "Documents/.mkm/{address}/avatar.png"
+            NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
+            NSFileManager *fm = [NSFileManager defaultManager];
+            if ([fm fileExistsAtPath:path]) {
+                NSError *error = nil;
+                if (![fm removeItemAtPath:path error:&error]) {
+                    NSLog(@"failed to remove old avatar: %@", error);
+                } else {
+                    NSLog(@"old avatar removed: %@", path);
+                }
+            }
+        }
     }
     
     // update profile
     [[DIMFacebook sharedInstance] saveProfile:profile];
-}
-
-- (nullable DIMID *)IDWithAddress:(DIMAddress *)address {
-    DIMID *ID = nil;
-    
-    NSString *dir = document_directory();
-    dir = [dir stringByAppendingPathComponent:@".mkm"];
-    
-    NSString *path = [NSString stringWithFormat:@"%@/meta.plist", address];
-    path = [dir stringByAppendingPathComponent:path];
-    
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:path]) {
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        NSString *seed = [dict objectForKey:@"seed"];
-        NSString *idstr = [NSString stringWithFormat:@"%@@%@", seed, address];
-        ID = DIMIDWithString(idstr);
-        NSLog(@"Address -> number: %@, ID: %@", search_number(ID.number), ID);
-    } else {
-        NSLog(@"meta file not exists: %@", path);
-    }
-    
-    return ID;
 }
 
 - (void)addStation:(DIMID *)stationID provider:(DIMServiceProvider *)sp {
